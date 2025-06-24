@@ -1,0 +1,129 @@
+---
+import "../css/Header.css";
+import type { Phone, SiteSettings } from "../lib/types/Header";
+import { fetchActivePhones, fetchSiteSettings } from "../lib/api/Header";
+
+let phoneNumber = "";
+let logoUrl = "";
+let logoAlt = "";
+
+try {
+  const activePhones = await fetchActivePhones();
+  const activePhone = activePhones.length > 0 ? activePhones[0] : null;
+  phoneNumber = activePhone ? activePhone.number : "1234567890";
+} catch (e) {
+  phoneNumber = "";
+}
+
+try {
+  const siteSettings: SiteSettings = await fetchSiteSettings();
+  logoUrl = siteSettings.logo.file_url;
+  logoAlt = siteSettings.logo.alt_text || "Logo";
+} catch (e) {
+  logoUrl = "";
+  logoAlt = "Logo";
+}
+---
+
+<header>
+  <!-- Thanh top -->
+  <div class="header-top">
+    <p class="header-contact">
+      <span><i class="fa-solid fa-phone"></i> {phoneNumber}</span>
+      <span
+        ><i class="fa-solid fa-location-dot"></i> 104 Ngô Quyền, P. Tân Lợi, TP.
+        BMT</span
+      >
+    </p>
+    <div class="header-social">
+      <i class="fa-brands fa-square-facebook"></i>
+      <i class="fa-brands fa-youtube"></i>
+      <i class="fa-brands fa-tiktok"></i>
+    </div>
+  </div>
+
+  <!-- Hero and Navigation Container -->
+  <div class="hero-nav-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <!-- Logo -->
+      <div class="logo">
+        <img src={logoUrl} alt={logoAlt} />
+      </div>
+
+      <!-- Tìm kiếm -->
+      <div class="search-container">
+        <input type="search" placeholder="Tìm kiếm..." class="search-input" />
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      </div>
+
+      <!-- Hotline -->
+      <div class="hotline">
+        <div class="hotline-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <span class="hotline-text">{phoneNumber}</span>
+      </div>
+    </div>
+
+    <nav class="navigation">
+      <button class="mobile-menu-button" onclick="toggleMobileMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <ul class="nav-list" id="navList">
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-house"></i>
+            Trang chủ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-circle-info"></i>
+            Giới thiệu
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            Dịch vụ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-building"></i>
+            Dự án đã hoàn thiện
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-book"></i>
+            Cẩm nang
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-comments"></i>
+            Chia sẻ kinh nghiệm
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-video"></i>
+            Video công trình hoàn thiện
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa-solid fa-paper-plane"></i>
+            Gửi yêu cầu
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+  </div>
+</header>

@@ -1,0 +1,367 @@
+.statistics-section {
+    padding: 50px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.background-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.hidden-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.stats-container {
+    margin: 0 auto;
+    padding: 0 0px;
+    position: relative;
+    z-index: 1;
+}
+
+.stats-text-center {
+    text-align: center;
+}
+
+.stats-section-header {
+    margin-bottom: 20px;
+}
+
+.stats-section-title {
+    background-color: #00000061;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 16px;
+    padding: 0px 0px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.stats-section-description {
+    color: black;
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+    padding: 12px 16px;
+    border-radius: 6px;
+}
+
+.stats-grid {
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #00000061;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+}
+
+.stat-card {
+    text-align: center;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-number {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    min-height: 1.2em;
+    /* Đảm bảo chiều cao tối thiểu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    text-align: center;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.stat-number.green,
+.stat-number.blue,
+.stat-number.orange,
+.stat-number.red {
+    color: inherit;
+}
+
+.stat-number.red {
+    color: #dc2626;
+    font-size: 24px;
+}
+
+.stat-number[data-number="0"] {
+    font-size: 24px;
+    /* Giảm kích thước font cho text dài */
+    line-height: 1.1;
+    padding: 4px 8px;
+    min-height: 2.4em;
+    /* Tăng chiều cao để cân bằng với số */
+    word-wrap: break-word;
+}
+
+.stat-description {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.stats-vien2ben {
+    padding: 0 100px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .stats-vien2ben {
+        padding: 0 50px;
+    }
+
+    .stats-grid {
+        padding: 40px 30px;
+    }
+
+    .stats-section-title {
+        font-size: 28px;
+    }
+}
+
+@media (min-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .statistics-section {
+        padding: 30px 0;
+    }
+
+    .container {
+        padding: 0 12px;
+    }
+
+    .stats-section-header {
+        margin-bottom: 32px;
+    }
+
+    .stats-section-title {
+        font-size: 24px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+    }
+
+    .stats-section-description {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .stats-vien2ben {
+        padding: 0 20px;
+    }
+
+    .stats-grid {
+        padding: 30px 20px;
+        gap: 20px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 36px;
+        min-height: 1.2em;
+    }
+
+    .stat-number[data-number="0"] {
+        font-size: 20px;
+        min-height: 2.16em;
+        /* 36px * 1.2 / 20px = 2.16em */
+    }
+
+    .stat-number.red {
+        font-size: 20px;
+    }
+
+    .stat-description {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .statistics-section {
+        padding: 20px 0;
+    }
+
+    .container {
+        padding: 0 8px;
+    }
+
+    .stats-section-header {
+        margin-bottom: 24px;
+    }
+
+    .stats-section-title {
+        font-size: 18px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+    }
+
+    .stats-section-description {
+        font-size: 12px;
+        padding: 8px 10px;
+        max-width: 100%;
+    }
+
+    .stats-vien2ben {
+        padding: 0 10px;
+    }
+
+    .stats-grid {
+        padding: 20px 15px;
+        gap: 16px;
+    }
+
+    .stat-card {
+        padding: 16px 12px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+        margin-bottom: 6px;
+        min-height: 1.2em;
+    }
+
+    .stat-number[data-number="0"] {
+        font-size: 16px;
+        min-height: 2.1em;
+        /* 28px * 1.2 / 16px = 2.1em */
+    }
+
+    .stat-number.red {
+        font-size: 16px;
+    }
+
+    .stat-description {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 320px) {
+    .statistics-section {
+        padding: 15px 0;
+    }
+
+    .container {
+        padding: 0 5px;
+    }
+
+    .stats-section-title {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+
+    .stats-section-description {
+        font-size: 11px;
+        padding: 6px 8px;
+    }
+
+    .stats-vien2ben {
+        padding: 0 5px;
+    }
+
+    .stats-grid {
+        padding: 15px 10px;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 12px 8px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+        min-height: 1.2em;
+    }
+
+    .stat-number[data-number="0"] {
+        font-size: 14px;
+        min-height: 2.06em;
+        /* 24px * 1.2 / 14px = 2.06em */
+    }
+
+    .stat-number.red {
+        font-size: 14px;
+    }
+
+    .stat-description {
+        font-size: 11px;
+    }
+}
+
+/* Animation */
+.stat-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.stat-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stat-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.stat-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* High contrast text for accessibility */
+@media (max-width: 480px) {
+    .stats-section-description {
+        background-color: #000000b3;
+        color: white;
+        font-weight: 500;
+    }
+}

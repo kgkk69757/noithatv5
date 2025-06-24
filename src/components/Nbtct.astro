@@ -1,0 +1,106 @@
+---
+import "../css/Nbtct.css";
+import {
+  fetchBannerTitleSectionA,
+  fetchStatsCards,
+  getDisplayValue,
+  getBackgroundImage,
+} from "../lib/api/index";
+import type { BannerTitleSectionA, StatsCard } from "../lib/types/index";
+
+
+// Fetch data with improved error handling
+const [bannerResult, statsResult] = await Promise.allSettled([
+  fetchBannerTitleSectionA(),
+  fetchStatsCards()
+]);
+
+const bannerTitleSectionA: BannerTitleSectionA | null = 
+  bannerResult.status === 'fulfilled' ? bannerResult.value : null;
+const statsCards: StatsCard[] = 
+  statsResult.status === 'fulfilled' ? statsResult.value : [];
+
+// Log any errors for debugging
+if (bannerResult.status === 'rejected') {
+  console.error('Failed to fetch banner data:', bannerResult.reason);
+}
+if (statsResult.status === 'rejected') {
+  console.error('Failed to fetch stats data:', statsResult.reason);
+}
+---
+
+<section
+  class="statistics-section"
+  style={`background-image: ${getBackgroundImage(bannerTitleSectionA)}`}
+  role="region"
+  aria-labelledby={bannerTitleSectionA?.has_title ? "stats-title" : undefined}
+  aria-label={!bannerTitleSectionA?.has_title ? "Thống kê" : undefined}
+>
+  {
+    bannerTitleSectionA?.has_banner && bannerTitleSectionA.banner_url && (
+      <div class="background-image-overlay">
+        <img
+          src={bannerTitleSectionA.banner_url}
+          alt={bannerTitleSectionA.banner_alt || "Background image"}
+          class="hidden-bg-img"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+  
+  <div class="stats-container">
+    <div class="stats-section-header stats-text-center">
+      {
+        bannerTitleSectionA?.has_title && bannerTitleSectionA.title ? (
+          <h2 id="stats-title" class="stats-section-title">
+            {bannerTitleSectionA.title}
+          </h2>
+        ) : null
+      }
+
+      {
+        bannerTitleSectionA?.has_mota && bannerTitleSectionA.mota ? (
+          <p class="stats-section-description">
+            {bannerTitleSectionA.mota}
+          </p>
+        ) : null
+      }
+    </div>
+    
+    <div class="stats-vien2ben">
+      {statsCards.length === 0 ? (
+        <div class="no-stats-message" role="status" aria-live="polite">
+          <p>Không có dữ liệu thống kê để hiển thị</p>
+        </div>
+      ) : (
+        <div class="stats-grid" role="list" aria-label="Danh sách thống kê">
+          {
+            statsCards.map((card, index) => (
+              <div 
+                class="stat-card" 
+                role="listitem"
+                tabindex="0"
+                aria-label={`Thống kê ${index + 1}: ${card.description}`}
+              >
+                <div
+                  class="stat-number"
+                  style={`color: ${card.color}`}
+                  data-number={card.number}
+                  data-type={card.number === "0" ? "text" : "number"}
+                  aria-label={`Giá trị: ${getDisplayValue(card)}`}
+                >
+                  {getDisplayValue(card)}
+                </div>
+                <p class="stat-description" aria-label={`Mô tả: ${card.description}`}>
+                  {card.description}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+<script src="/js/Nbtct.js" defer></script>
