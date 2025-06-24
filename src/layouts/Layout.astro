@@ -1,5 +1,23 @@
 ---
 import Header from "../components/Header.astro";
+import type { SiteSettings } from "../lib/types/Header";
+import { fetchSiteSettings } from "../lib/api/Header";
+
+let faviconUrl = "/favicon.svg";
+let faviconAlt = "Favicon";
+let siteName = "Astro Basics";
+
+try {
+  const siteSettings: SiteSettings = await fetchSiteSettings();
+  faviconUrl = siteSettings.favicon.file_url;
+  faviconAlt = siteSettings.favicon.alt_text || "Favicon";
+  siteName = siteSettings.site_name || "Astro Basics";
+} catch (e) {
+  // Fallback to default values if API fails
+  faviconUrl = "/favicon.svg";
+  faviconAlt = "Favicon";
+  siteName = "Astro Basics";
+}
 ---
 
 <!doctype html>
@@ -7,9 +25,9 @@ import Header from "../components/Header.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={faviconUrl} />
     <!-- <meta name="generator" content={Astro.generator} /> -->
-    <title>Astro Basics</title>
+    <title>{siteName}</title>
     <style>
       /* Critical CSS cho above-the-fold content */
       html,

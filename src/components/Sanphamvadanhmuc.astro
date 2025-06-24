@@ -1,0 +1,164 @@
+---
+import "../css/Sanphamvadanhmuc.css";
+import {
+  fetchPostCategories,
+  fetchPosts,
+} from "../lib/api/index";
+import type {
+  PostCategory,
+  Post,
+} from "../lib/types/index";
+
+const categories: PostCategory[] = await fetchPostCategories();
+const allPosts: Post[] = await fetchPosts();
+
+// Sắp xếp danh mục: thu_tu > 0 theo thứ tự tăng dần, thu_tu = 0 về cuối
+const displayCategories = categories
+  .sort((a, b) => {
+    // Nếu một trong hai có thu_tu = 0, đưa về cuối
+    if (a.thu_tu === 0 && b.thu_tu !== 0) return 1;
+    if (b.thu_tu === 0 && a.thu_tu !== 0) return -1;
+    // Nếu cả hai đều = 0 hoặc cả hai đều > 0, sort bình thường
+    return a.thu_tu - b.thu_tu;
+  })
+  .slice(0, 6);
+
+// Group posts by category và sort theo thu_tu_hien_thi
+const postsByCategory = allPosts
+  .filter((post) => post.danhmuc && post.danhmuc.slug) // Filter posts có danhmuc
+  .reduce(
+    (acc, post) => {
+      const categorySlug = post.danhmuc.slug;
+      if (!acc[categorySlug]) {
+        acc[categorySlug] = [];
+      }
+      acc[categorySlug].push(post);
+      return acc;
+    },
+    {} as Record<string, Post[]>
+  );
+
+// Sort posts trong mỗi category theo thu_tu_hien_thi và lấy 6 bài đầu
+Object.keys(postsByCategory).forEach((categorySlug) => {
+  postsByCategory[categorySlug] = postsByCategory[categorySlug]
+    .sort((a, b) => a.thu_tu_hien_thi - b.thu_tu_hien_thi)
+    .slice(0, 6);
+});
+---
+
+<section>
+  <div class="product-background-section">
+    <!-- Categories Section -->
+    <div class="product-categories">
+      {
+        displayCategories.map((category, index) => (
+          <div
+            class={`product-category-item ${index === 0 ? "active" : ""}`}
+            data-category={category.slug}
+          >
+            {category.tendanhmucbaiviet}
+          </div>
+        ))
+      }
+      <div class="product-arrow-indicator">
+        <svg
+          viewBox="0 0 280 35"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0.99115 33.7851C33.5425 26.6978 44.8866 18.7367 48.5664 0H235.894C235.006 18.6738 243.739 27.7801 280 35H224.991H0L0.99115 33.7851Z"
+            fill="#007bff"
+          >
+          </path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="product-showcase-wrapper">
+      {
+        displayCategories.map((category, categoryIndex) => {
+          const categoryPosts = postsByCategory[category.slug] || [];
+          return (
+            <div
+              class={`product-showcase-parent ${categoryIndex === 0 ? "active" : ""}`}
+              data-category={category.slug}
+            >
+              {[1, 2, 3, 4, 5, 6].map((position) => {
+                const post = categoryPosts[position - 1];
+                if (!post) {
+                  return (
+                    <div class={`product-showcase-div${position}`}>
+                      <div class="empty-product-slot">
+                        <i class="fa-solid fa-plus" />
+                        <p>Chưa có bài viết</p>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div class={`product-showcase-div${position}`}>
+                    <img 
+                      src={post.img_url} 
+                      alt={post.img_alt}
+                      loading="lazy"
+                      decoding="async"
+                      width="400"
+                      height="300"
+                      fetchpriority="low"
+                      class="w-full h-auto object-cover rounded-md"
+                    />
+                    <div class="product-card-title">
+                      <p>{post.tieudebaiviet}</p>
+                    </div>
+                    <div class="product-card-hover">
+                      <p>{post.meta_description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script src="/js/Sanphamvadanhmuc.js" defer></script>
+
+<!-- <style>
+  .empty-product-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .empty-product-slot i {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .empty-product-slot p {
+    font-size: 12px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .product-showcase-parent {
+    display: none;
+  }
+
+  .product-showcase-parent.active {
+    display: grid;
+  }
+</style> -->

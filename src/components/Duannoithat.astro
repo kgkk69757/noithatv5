@@ -1,0 +1,131 @@
+---
+import "../css/Duannoithat.css";
+
+import {
+  fetchServiceGrid,
+  fetchBannerTitleSection,
+  fetchServiceCards,
+} from "../lib/api/index";
+import type {
+  ServiceGridItem,
+  BannerTitleSection,
+  ServiceCard,
+} from "../lib/types/index";
+
+const serviceItems: ServiceGridItem[] = await fetchServiceGrid();
+const serviceCards: ServiceCard[] = await fetchServiceCards();
+const bannerTitleSection: BannerTitleSection | null =
+  await fetchBannerTitleSection();
+
+// Tạo object để mapping theo vị trí
+const serviceMap = serviceItems.reduce(
+  (acc, item) => {
+    acc[item.vi_tri] = item;
+    return acc;
+  },
+  {} as Record<string, ServiceGridItem>
+);
+
+// Sắp xếp serviceCards theo thu_tu
+const sortedServiceCards = serviceCards.sort((a, b) => a.thu_tu - b.thu_tu);
+
+// Thứ tự hiển thị theo layout
+const positions = [
+  "service-div1",
+  "service-div6",
+  "service-div5",
+  "service-div2",
+  "service-div3",
+  "service-div4",
+];
+---
+
+<section class="services-section">
+  {
+    bannerTitleSection?.has_title && bannerTitleSection.title && (
+      <div class="services-title">
+        <h1>{bannerTitleSection.title}</h1>
+      </div>
+    )
+  }
+
+  <div class="services-container">
+    <!-- Background image với alt -->
+    {
+      bannerTitleSection?.has_banner && bannerTitleSection.banner_url && (
+        <div class="background-image">
+          <img
+            src={bannerTitleSection.banner_url}
+            alt={bannerTitleSection.banner_alt}
+            class="banner-bg-img"
+          />
+        </div>
+      )
+    }
+
+    <div class="services-grid">
+      {
+        positions.map((position) => {
+          const item = serviceMap[position];
+          if (!item) return null;
+
+          return (
+            <div class={`service-card ${position}`}>
+              <img
+                src={item.baiviet.img_url}
+                alt={item.baiviet.img_alt || "Ảnh bài viết"}
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="500"
+                fetchpriority="low"
+                class="w-full h-auto object-cover rounded-md"
+              />
+              <div class="service-title">
+                <p>{item.baiviet.tieudebaiviet}</p>
+              </div>
+              <div class="service-hover">
+                <p>
+                  {item.baiviet.noidung_excerpt ||
+                    item.baiviet.meta_description}
+                </p>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <!-- Vertical slider with API data -->
+    <div class="vertical-scroller">
+      <div class="vertical-slider-wrapper">
+        {
+          sortedServiceCards.map((serviceCard) => (
+            <div class="service-card-x">
+              <img
+                src={serviceCard.baiviet.img_url}
+                alt={serviceCard.baiviet.img_alt}
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="300"
+                fetchpriority="low"
+                class="w-full h-auto object-cover rounded-md"
+              />
+              <div class="service-title">
+                <p>{serviceCard.baiviet.tieudebaiviet}</p>
+              </div>
+              <div class="service-hover">
+                <p>
+                  {serviceCard.baiviet.noidung_excerpt ||
+                    serviceCard.baiviet.meta_description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/js/Duannoithat.js" defer></script>

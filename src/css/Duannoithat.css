@@ -1,0 +1,483 @@
+/* Services section */
+.services-section {
+    padding: 0rem 0;
+}
+
+.services-title {
+    text-align: center;
+    font-size: 37px;
+    font-weight: bold;
+    color: black;
+}
+
+.services-container {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    padding: 16px 100px;
+    box-sizing: border-box;
+    box-shadow: 1px 5px 3px 0px rgb(0 0 0 / 33%);
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.banner-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.services-grid {
+    display: grid;
+    height: 600px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+    padding: 0;
+    flex: 3;
+    box-sizing: border-box;
+}
+
+/* CSS MỚI CHO HIỆU ỨNG CUỘN DỌC BẰNG ANIMATION */
+.vertical-scroller {
+    /* Đã đổi tên từ .vertical-slider */
+    max-height: 600px;
+    /* Giữ chiều cao tương tự .services-grid */
+    overflow: hidden;
+    /* Quan trọng: ẩn phần thừa khi animation */
+    position: relative;
+    flex: 1;
+    box-sizing: border-box;
+    /* Các thuộc tính cũ của .vertical-slider như display:flex, align-items:center không còn cần thiết
+       vì .swiper-wrapper bên trong sẽ được điều khiển bởi animation hoặc Swiper.js */
+}
+
+/* Kích hoạt hiệu ứng cuộn chỉ khi có class 'is-scrolling' */
+.vertical-scroller.is-scrolling .vertical-slider-wrapper {
+    /* animation: vertical-scroll 20s linear infinite; */
+    /* Điều chỉnh thời gian (20s) nếu cần */
+    flex-direction: column;
+    display: flex;
+    will-change: transform;
+}
+
+/* Tạm dừng animation khi người dùng di chuột vào */
+.vertical-scroller.is-scrolling:hover .vertical-slider-wrapper {
+    animation-play-state: paused;
+}
+
+/* Định nghĩa animation cuộn */
+@keyframes vertical-scroll {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-50%);
+        /* Dịch chuyển bằng chiều cao của nội dung gốc (do JS nhân bản) */
+    }
+}
+
+/* CSS chung cho vertical-slider-wrapper */
+.vertical-scroller .vertical-slider-wrapper {
+    /* Áp dụng cho class .swiper-wrapper bên trong .vertical-scroller */
+    display: flex;
+    /* Cần thiết cho cả flex-direction column và row */
+    width: 100%;
+    position: relative;
+    /* Cần cho Swiper */
+    /* transition-property: transform; */
+    /* Xóa transition này vì nó xung đột với auto scroll và manual scroll */
+    box-sizing: content-box;
+    /* Theo chuẩn Swiper */
+    flex-direction: column !important;
+}
+
+/* CSS cho các slide bên trong .vertical-scroller */
+.vertical-scroller .service-card-x {
+    /* Đã đổi tên từ .vertical-slider */
+    width: 100%;
+    max-width: 100%;
+    height: 195px;
+    /* Chiều cao của mỗi card, điều chỉnh nếu cần */
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 4px 5px 0px 0px rgb(0 0 0 / 33%);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin-bottom: 8px;
+    /* Khoảng cách giữa các card theo chiều dọc */
+}
+
+/* Loại bỏ margin cho slide cuối cùng trong wrapper khi không scrolling (Swiper mode) */
+.vertical-scroller .service-card-x:last-child {
+    margin-bottom: 0;
+}
+
+/* Khi .is-scrolling, slide cuối cùng (của phần gốc) vẫn cần margin-bottom để tạo khoảng cách với slide clone đầu tiên */
+
+.service-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 4px 5px 0px 0px rgb(0 0 0 / 33%);
+    margin: 0;
+    /* Remove margin to rely solely on grid-gap */
+    height: 100%;
+    /* Ensure card fills the height of the grid cell */
+    width: 100%;
+    /* Ensure card fills the width of the grid cell */
+    box-sizing: border-box;
+    /* Include padding/border in element's total width and height */
+}
+
+
+
+.service-card img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.service-card-x img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.service-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    color: black;
+}
+
+.service-card-x .service-title,
+.service-card-x .service-hover {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    color: black;
+}
+
+.service-card-x .service-title {
+    top: 0;
+}
+
+.service-hover {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(100%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 16px;
+    color: black;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.service-card-x .service-hover {
+    bottom: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.service-card:hover .service-hover {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.service-card-x:hover .service-hover {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.service-card-x:hover .service-title {
+    transform: translateY(0);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.service-card:hover .service-title {
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.service-hover p {
+    font-family: 'IBM Plex Serif';
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+
+/* Grid positioning for services */
+.service-div1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.service-div6 {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+
+.service-div5 {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.service-div2 {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+}
+
+.service-div3 {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+.service-div4 {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+
+/* Services responsive design */
+@media (max-width: 1200px) {
+    .services-grid {
+        padding: 0;
+        /* Bỏ padding thừa, để grid sử dụng không gian của container */
+    }
+
+    .services-container {
+        padding: 16px 60px;
+        /* Giảm padding ngang của container để có thêm không gian */
+    }
+}
+
+@media (max-width: 992px) {
+    .services-container {
+        flex-direction: column;
+        padding: 16px 0px;
+        /* Padding này sẽ được áp dụng cho mobile nếu không có ghi đè cụ thể hơn */
+    }
+
+    .services-grid {
+        width: 100%;
+        /* Grid takes full width */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 cột bằng nhau */
+        grid-template-rows: repeat(2, auto) 1fr;
+        /* 3 hàng: 2 hàng đầu tự động, hàng cuối 1fr */
+        /* Hoặc có thể đặt chiều cao cụ thể cho các hàng nếu cần, ví dụ:
+           grid-template-rows: 2fr 1fr 1fr; (nếu tổng grid có 3 phần chiều cao)
+           Hoặc pixel: ví dụ 250px 250px 250px (tổng 750px)
+           Hiện tại, chúng ta sẽ để 3 hàng với chiều cao được phân bổ từ tổng chiều cao của grid.
+        */
+        height: 500px;
+        /* Giữ nguyên chiều cao tổng, các hàng sẽ tự chia */
+        padding: 0;
+        gap: 8px;
+        /* Đảm bảo có khoảng cách giữa các mục */
+    }
+
+    /* Ẩn các mục không mong muốn */
+    .service-div4,
+    .service-div5,
+    .service-div6 {
+        display: none;
+    }
+
+    /* Định vị lại các mục hiển thị */
+    .service-div1 {
+        grid-column: 1 / 3;
+        /* Kéo dài 2 cột */
+        grid-row: 1 / 2;
+        /* Hàng đầu tiên */
+        /* Nếu muốn service-div1 chiếm 2 hàng đầu tiên của một grid 3 hàng:
+           grid-row: 1 / 3;
+           Và grid-template-rows sẽ cần được điều chỉnh, ví dụ: repeat(3, 1fr)
+           Sau đó .service-div2 và .service-div3 sẽ ở grid-row: 3 / 4;
+        */
+    }
+
+    .service-div2 {
+        grid-column: 1 / 2;
+        /* Cột đầu tiên */
+        grid-row: 2 / 3;
+        /* Hàng thứ hai */
+    }
+
+    .service-div3 {
+        grid-column: 2 / 3;
+        /* Cột thứ hai */
+        grid-row: 2 / 3;
+        /* Hàng thứ hai */
+    }
+
+    /* Điều chỉnh lại nếu service-div1 chiếm 2 hàng */
+    /* Nếu .services-grid có grid-template-rows: repeat(3, 1fr); */
+    /* .service-div1 { grid-column: 1 / 3; grid-row: 1 / 3; } */
+    /* .service-div2 { grid-column: 1 / 2; grid-row: 3 / 4; } */
+    /* .service-div3 { grid-column: 2 / 3; grid-row: 3 / 4; } */
+
+
+    .vertical-scroller {
+        /* Đã đổi tên từ vertical-slider */
+        height: 280px;
+        width: 100%;
+        margin-top: 20px;
+        overflow: hidden;
+        /* Swiper sẽ quản lý overflow của nó */
+        flex: none;
+        display: block;
+        max-height: none;
+        /* Reset max-height từ desktop mode */
+    }
+
+
+    .vertical-scroller .service-card-x {
+        width: 240px;
+        height: 220px;
+        margin-bottom: 0;
+        /* Reset margin-bottom cho Swiper ngang */
+    }
+}
+
+@media (max-width: 768px) {
+    .services-title {
+        font-size: 28px;
+        margin: 8px 0 16px 0;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 cột */
+        grid-template-rows: 2fr 1fr;
+        /* div1 chiếm 2 phần, div2 & div3 chiếm 1 phần */
+        /* Tổng cộng 2 hàng lớn, hàng thứ 2 chứa 2 div */
+        /* Hoặc nếu muốn 3 hàng rõ ràng như mô tả: */
+        /* grid-template-rows: 200px 200px 200px; /* Ví dụ: div1 cao 400px, div2/3 cao 200px */
+        /* height: auto; */
+        /* Chiều cao sẽ được xác định bởi tổng các hàng */
+
+        /* Áp dụng cấu trúc 3 hàng như yêu cầu: */
+        grid-template-rows: 2fr 1fr 1fr;
+        /* div1 chiếm 2/4 tổng chiều cao, div2/div3 mỗi cái 1/4 */
+        /* Hoặc cụ thể hơn với pixel nếu chiều cao grid cố định */
+        /* Ví dụ: services-grid height: 600px -> rows: 300px 150px 150px (không đúng, phải là 3 hàng bằng nhau rồi div1 span 2) */
+        /* Đúng hơn: */
+        grid-template-rows: repeat(3, minmax(150px, 1fr));
+        /* 3 hàng, mỗi hàng tối thiểu 150px */
+        height: auto;
+        /* Chiều cao tổng sẽ là tổng 3 hàng */
+        min-height: auto;
+        padding: 0;
+    }
+
+    /* Giữ nguyên display:none cho div4,5,6 từ 992px */
+
+    /* Bố cục cho div1, div2, div3 */
+    .service-div1 {
+        grid-column: 1 / 3;
+        /* Kéo dài 2 cột */
+        grid-row: 1 / 3;
+        /* Kéo dài 2 hàng đầu */
+    }
+
+    .service-div2 {
+        grid-column: 1 / 2;
+        /* Cột đầu tiên */
+        grid-row: 3 / 4;
+        /* Hàng thứ ba */
+    }
+
+    .service-div3 {
+        grid-column: 2 / 3;
+        /* Cột thứ hai */
+        grid-row: 3 / 4;
+        /* Hàng thứ ba */
+    }
+
+    .vertical-scroller {
+        /* Đã đổi tên từ vertical-slider */
+        height: 260px;
+    }
+
+    .vertical-scroller .service-card-x {
+        /* Đã đổi tên từ vertical-slider */
+        width: 220px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-title {
+        font-size: 24px;
+    }
+
+    .services-grid {
+        /* Kế thừa grid-template-columns: repeat(2, 1fr); từ 768px */
+        /* Kế thừa display:none cho div4,5,6 */
+        /* Kế thừa grid-area cho div1,2,3 từ 768px */
+        grid-template-rows: repeat(3, minmax(120px, 1fr));
+        /* 3 hàng, mỗi hàng tối thiểu 120px */
+        height: auto;
+        padding: 16px 10px;
+        /* Padding này trên mobile sẽ nằm trong width 100% nhờ box-sizing */
+    }
+
+    /* .service-div1, .service-div2, .service-div3 đã được định nghĩa ở 768px */
+
+    .vertical-scroller {
+        /* Đã đổi tên từ vertical-slider */
+        height: 240px;
+    }
+
+    .vertical-scroller .service-card-x {
+        /* Đã đổi tên từ vertical-slider */
+        width: 80%;
+        max-width: 200px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .vertical-scroller .vertical-slider-wrapper {
+        flex-direction: row !important;
+        width: max-content;
+        height: 100%;
+        /* Đảm bảo wrapper đủ rộng để cuộn ngang */
+    }
+
+    .vertical-scroller .service-card-x {
+        width: 240px;
+        height: 220px;
+        margin-bottom: 0;
+        margin-right: 8px;
+        /* Khoảng cách giữa các slide ngang */
+    }
+
+    .vertical-scroller .service-card-x:last-child {
+        margin-right: 0;
+    }
+}
