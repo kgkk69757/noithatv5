@@ -1,0 +1,76 @@
+---
+import "../css/Banner.css";
+import { fetchBanners } from "../lib/api/index";
+
+// Fetch banners data
+const banners = await fetchBanners();
+
+// Helper function to get subtitle
+function getSubtitle(banner: any) {
+  return banner.description || "";
+}
+
+// Helper function to get button text
+function getButtonText(banner: any) {
+  return banner.link_name || "Xem thêm";
+}
+---
+
+<section class="hero-banner">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+      {
+        banners.map((banner, index) => (
+          <div class="swiper-slide hero-slide">
+            <div
+              class="hero-bg"
+              style={`background-image: url('${banner.image_url}')`}
+              data-bg={banner.image_url}
+            />
+            <div class="hero-overlay">
+              <div class="hero-content">
+                <h1 class="hero-title">{banner.title || ""}</h1>
+                {getSubtitle(banner) && (
+                  <h2 class="hero-subtitle">{getSubtitle(banner)}</h2>
+                )}
+                <div class="hero-cta">
+                  <a
+                    href={banner.link || "#"}
+                    class="hero-btn"
+                    data-slide={index.toString()}
+                    aria-label={`${getButtonText(banner)} - ${banner.title}`}
+                  >
+                    {getButtonText(banner)}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="swiper-button-next" aria-label="Slide tiếp theo"></div>
+    <div class="swiper-button-prev" aria-label="Slide trước đó"></div>
+
+    <!-- Pagination -->
+    <div class="swiper-pagination" aria-label="Điều hướng slide"></div>
+
+    <!-- Progress bar -->
+    <div class="hero-progress" aria-hidden="true">
+      <div class="hero-progress-bar"></div>
+    </div>
+
+    <!-- Autoplay progress -->
+    <div class="autoplay-progress" aria-hidden="true">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="20"></circle>
+      </svg>
+      <span>5s</span>
+    </div>
+  </div>
+</section>
+
+<!-- Preload critical resources -->
+<script src="/js/Banner.js" defer></script>

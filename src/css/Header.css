@@ -1,0 +1,653 @@
+/* Header styles */
+header {
+    padding-bottom: 2rem;
+}
+
+.header-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: white;
+}
+
+.header-contact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-social {
+    display: flex;
+    gap: 16px;
+}
+
+.header-social i {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.header-social i:hover.fa-facebook {
+    color: #3b82f6;
+}
+
+.header-social i:hover.fa-youtube {
+    color: #ef4444;
+}
+
+.header-social i:hover.fa-tiktok {
+    color: white;
+}
+
+/* Hero and Navigation Container */
+.hero-nav-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.logo {
+    height: 96px;
+    width: 96px;
+    flex-shrink: 0;
+}
+
+.logo img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 448px;
+}
+
+.search-input {
+    width: 100%;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    padding: 8px 40px 8px 16px;
+    outline: none;
+}
+
+.search-input:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.hotline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 9999px;
+    background-color: #3b82f6;
+    padding: 8px 16px;
+}
+
+.hotline-icon {
+    display: flex;
+    height: 28px;
+    width: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.hotline-icon i {
+    font-size: 14px;
+    color: black;
+}
+
+.hotline-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.navigation {
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    list-style: none;
+    margin: 0;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+    text-decoration: none;
+    color: inherit;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.nav-item a:hover {
+    color: #2563eb;
+    background-color: #f3f4f6;
+}
+
+.nav-item i {
+    font-size: 14px;
+}
+
+/* Hamburger menu styles */
+.mobile-menu-button {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mobile-menu-button i {
+    font-size: 20px;
+    color: #374151;
+    transition: color 0.3s;
+}
+
+.mobile-menu-button:hover i {
+    color: #2563eb;
+}
+
+.nav-list.mobile-hidden {
+    display: none;
+}
+
+.nav-list.mobile-visible {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 16px;
+    gap: 8px;
+}
+
+.nav-list.mobile-visible .nav-item {
+    width: 100%;
+}
+
+.nav-list.mobile-visible .nav-item a {
+    padding: 12px 16px;
+    justify-content: flex-start;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.divider {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.divider-line {
+    height: 1px;
+    width: 300px;
+    background-color: black;
+}
+
+/* Header responsive design */
+@media (min-width: 1025px) {
+
+    /* Desktop - keep original layout */
+    .hero-section {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .nav-list {
+        gap: 32px;
+        font-size: 16px;
+    }
+}
+
+/* iPad styles (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    header {
+        padding-bottom: 1rem;
+    }
+
+    .header-top {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+    .header-contact {
+        gap: 16px;
+    }
+
+    .header-social {
+        gap: 20px;
+    }
+
+    /* Hero and Nav in same row */
+    .hero-nav-container {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        min-height: 80px;
+    }
+
+    .hero-section {
+        flex: 1;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 16px;
+        min-height: 80px;
+    }
+
+    .logo {
+        height: 60px;
+        width: 60px;
+        order: 1;
+    }
+
+    .search-container {
+        order: 2;
+        flex: 1;
+        max-width: 300px;
+        margin: 0 16px;
+    }
+
+    .search-input {
+        padding: 8px 40px 8px 14px;
+        font-size: 13px;
+    }
+
+    .hotline {
+        order: 3;
+        padding: 8px 12px;
+        white-space: nowrap;
+    }
+
+    .hotline-icon {
+        height: 28px;
+        width: 28px;
+    }
+
+    .hotline-icon i {
+        font-size: 14px;
+    }
+
+    .hotline-text {
+        font-size: 13px;
+    }
+
+    .navigation {
+        min-width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none;
+        border-left: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu-button {
+        display: flex;
+        position: static;
+        transform: none;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .nav-list.mobile-visible {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 20px;
+        position: absolute;
+        top: 100%;
+        left: -45rem;
+        right: 0;
+        margin-top: 0;
+    }
+
+    .nav-list.mobile-visible .nav-item a {
+        padding: 12px 16px;
+        gap: 8px;
+        font-size: 14px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .nav-list.mobile-visible .nav-item i {
+        font-size: 16px;
+    }
+
+    /* Divider at bottom */
+    .divider {
+        order: 3;
+        margin: 8px 0;
+    }
+
+    .divider-line {
+        width: 350px;
+    }
+}
+
+/* Mobile styles (below 768px) */
+@media (max-width: 767px) {
+    header {
+        padding-bottom: 1rem;
+    }
+
+    .header-top {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 16px;
+        text-align: center;
+    }
+
+    .header-contact {
+        font-size: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .header-contact span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .header-social {
+        gap: 20px;
+        justify-content: center;
+    }
+
+    /* Hero and Nav in same row */
+    .hero-nav-container {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        min-height: 70px;
+    }
+
+    .hero-section {
+        flex: 1;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        gap: 12px;
+        min-height: 70px;
+    }
+
+    .logo {
+        height: 50px;
+        width: 50px;
+        order: 1;
+    }
+
+    .search-container {
+        order: 2;
+        flex: 1;
+        max-width: 200px;
+        margin: 0 8px;
+    }
+
+    .search-input {
+        padding: 6px 30px 6px 10px;
+        font-size: 12px;
+    }
+
+    .hotline {
+        order: 3;
+        padding: 6px 8px;
+        white-space: nowrap;
+    }
+
+    .hotline-icon {
+        height: 24px;
+        width: 24px;
+    }
+
+    .hotline-icon i {
+        font-size: 12px;
+    }
+
+    .hotline-text {
+        font-size: 11px;
+    }
+
+    .navigation {
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none;
+        border-left: 1px solid #e5e7eb;
+    }
+
+    .mobile-menu-button {
+        display: flex;
+        position: static;
+        transform: none;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .nav-list.mobile-visible {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 16px;
+        position: absolute;
+        top: 100%;
+        left: -20rem;
+        right: 0rem;
+        margin-top: 0;
+    }
+
+    .nav-list.mobile-visible .nav-item a {
+        padding: 12px 16px;
+        gap: 8px;
+        font-size: 14px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .nav-list.mobile-visible .nav-item i {
+        font-size: 16px;
+    }
+
+    /* Divider at bottom */
+    .divider {
+        order: 3;
+        margin: 6px 0;
+    }
+
+    .divider-line {
+        width: 200px;
+    }
+}
+
+/* Small mobile styles (below 480px) */
+@media (max-width: 480px) {
+    .header-top {
+        padding: 8px 12px;
+    }
+
+    .header-contact {
+        font-size: 11px;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .header-social i {
+        font-size: 16px;
+    }
+
+    .hero-section {
+        padding: 6px 12px;
+        gap: 8px;
+        min-height: 60px;
+    }
+
+    .logo {
+        height: 40px;
+        width: 40px;
+    }
+
+    .search-container {
+        max-width: 150px;
+        margin: 0 6px;
+    }
+
+    .search-input {
+        padding: 5px 25px 5px 8px;
+        font-size: 11px;
+    }
+
+    .hotline {
+        padding: 5px 6px;
+    }
+
+    .hotline-icon {
+        height: 20px;
+        width: 20px;
+    }
+
+    .hotline-icon i {
+        font-size: 10px;
+    }
+
+    .hotline-text {
+        font-size: 10px;
+    }
+
+    .navigation {
+        min-width: 40px;
+    }
+
+    .mobile-menu-button {
+        padding: 4px;
+    }
+
+    .mobile-menu-button i {
+        font-size: 16px;
+    }
+
+    .nav-list.mobile-visible .nav-item a {
+        padding: 10px 12px;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .nav-list.mobile-visible .nav-item i {
+        font-size: 14px;
+        width: 16px;
+    }
+
+    .divider-line {
+        width: 150px;
+    }
+}
+
+/* Extra small mobile styles (below 320px) */
+@media (max-width: 320px) {
+    .header-contact span {
+        font-size: 10px;
+    }
+
+    .hero-section {
+        padding: 4px 8px;
+        min-height: 50px;
+    }
+
+    .logo {
+        height: 35px;
+        width: 35px;
+    }
+
+    .search-container {
+        max-width: 120px;
+        margin: 0 4px;
+    }
+
+    .search-input {
+        padding: 4px 20px 4px 6px;
+        font-size: 10px;
+    }
+
+    .hotline {
+        padding: 4px;
+    }
+
+    .hotline-text {
+        font-size: 9px;
+    }
+
+    .navigation {
+        min-width: 35px;
+    }
+
+    .mobile-menu-button i {
+        font-size: 14px;
+    }
+
+    .nav-list.mobile-visible .nav-item a {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .divider-line {
+        width: 120px;
+    }
+}

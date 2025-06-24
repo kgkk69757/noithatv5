@@ -1,0 +1,126 @@
+---
+import "../css/Gioithieu.css";
+import { fetchCompanyInfo } from "../lib/api/Header";
+
+let companyInfo;
+try {
+  companyInfo = await fetchCompanyInfo();
+} catch (error) {
+  console.error('Error fetching company info:', error);
+  // Fallback data để tránh crash
+  companyInfo = {
+    title: 'Công ty TNHH Thương mại và Dịch vụ Tân Sinh Huy',
+    subtitle: 'Chuyên cung cấp dịch vụ chất lượng cao',
+    description: 'Chúng tôi cam kết mang đến những sản phẩm và dịch vụ tốt nhất cho khách hàng.',
+    extended_description: 'Với nhiều năm kinh nghiệm trong lĩnh vực thương mại và dịch vụ, chúng tôi luôn đặt chất lượng lên hàng đầu.',
+    video_id: 'dQw4w9WgXcQ', // Default video ID
+    video_title: 'Video giới thiệu công ty',
+    is_active: true,
+    youtube_url: '',
+    youtube_embed_url: '',
+    youtube_thumbnail: '',
+    embed_code: ''
+  };
+}
+
+
+---
+<section class="intro-section">
+  <div class="intro-title">
+    <h1>{companyInfo?.title}</h1>
+  </div>
+  <div class="intro-bg">
+    <div class="intro-bg-video">
+      <iframe
+        src={`https://www.youtube.com/embed/${companyInfo?.video_id}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&playlist=${companyInfo?.video_id}&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0&start=0&end=0&origin=https://your-domain.com`}
+        title="Video giới thiệu công ty"
+        frameborder="0"
+        allow="autoplay; encrypted-media; accelerometer; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        loading="lazy"></iframe>
+    </div>
+    <div class="intro-content">
+      <!-- Phần bên trái -->
+      <div class="intro-left">
+        <!-- Tiêu đề -->
+        <div class="intro-subtitle">
+          <h1>{companyInfo?.subtitle}</h1>
+        </div>
+
+        <!-- Accordion nội dung -->
+        <div class="accordion-container">
+          <!-- Nội dung giới thiệu ban đầu -->
+          <p class="noidunggioithieu accordion-text">
+            {companyInfo?.description}
+          </p>
+
+          <!-- Nội dung thêm -->
+          <div class="accordion-extra" id="extraContent">
+            <p class="noidunggioithieu accordion-text">
+              {companyInfo?.extended_description}
+            </p>
+          </div>
+          <!-- Nút toggle nội dung -->
+          <button class="accordion-button" onclick="toggleAccordion()">
+            <span id="toggleText">Xem thêm</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Phần bên phải -->
+      <div class="intro-right">
+        <div class="map-container">
+          <div class="map-img-wrapper">
+            <img
+              src="/images/bandohoanchinh.png"
+              alt="Bản đồ chi nhánh"
+              class="map-img"
+              loading="lazy"
+            />
+            <div class="location-dropdown">
+              <i class="fa-solid fa-location-dot location-icon"></i>
+              <button class="location-button" onclick="toggleDropdown()">
+                <span id="selectedLocation">TP Hồ Chí Minh</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              <!-- Danh sách tỉnh -->
+              <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item" onclick="selectLocation('Hà Nội')">
+                  Hà Nội
+                </div>
+                <div
+                  class="dropdown-item"
+                  onclick="selectLocation('Buôn Ma Thuột')"
+                >
+                  Buôn Ma Thuột
+                </div>
+                <div
+                  class="dropdown-item"
+                  onclick="selectLocation('Hồ Chí Minh')"
+                >
+                  Hồ Chí Minh
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/js/Gioithieu.js" defer></script>
