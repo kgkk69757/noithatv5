@@ -57,7 +57,11 @@ const positions = [
           <img
             src={bannerTitleSection.banner_url}
             alt={bannerTitleSection.banner_alt}
-            class="banner-bg-img"
+            loading="lazy"
+            decoding="async"
+            width="1920"
+            height="600"
+            style="width: 100%; height: auto; display: block; object-fit: cover"
           />
         </div>
       )

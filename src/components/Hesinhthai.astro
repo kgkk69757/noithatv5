@@ -1,0 +1,54 @@
+---
+import "../css/Hesinhthai.css";
+import { fetchServices } from "../lib/api/index.ts";
+
+const services = await fetchServices();
+---
+
+<section class="ecosystem-section">
+    <div class="ecosystem-container">
+        <div class="ecosystem-header">
+            <h2 class="ecosystem-title">HỆ SINH THÁI</h2>
+        </div>
+
+        <div class="ecosystem-cards-grid">
+            {services.map((service) => (
+                <div class="ecosystem-card" data-aos="fade-up" data-aos-delay={service.aos_delay}>
+                    <div class="card-content">
+                        <div class="icon-wrapper">
+                            <div class="icon-circle">
+                                <img 
+                                    src={service.icon_image_url} 
+                                    alt={service.icon_alt}
+                                    class="icon-image"
+                                />
+                            </div>
+                        </div>
+
+                        <h3 class="card-title">{service.title}</h3>
+
+                        <p class="card-description">
+                            {service.description}
+                        </p>
+
+                        <div class="card-actions">
+                            <a href={service.fanpage_url} target="_blank" rel="noopener noreferrer" class="fanpage-link">
+                                <i class="fab fa-facebook"></i>
+                                <span>FANPAGE</span>
+                            </a>
+
+                            <div class="phone-number">
+                                <i class="fas fa-phone"></i>
+                                <span>{service.phone_number}</span>
+                            </div>
+
+                            <button class="service-button">XEM DỊCH VỤ</button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<script src="/js/Hesinhthai.js" defer></script>

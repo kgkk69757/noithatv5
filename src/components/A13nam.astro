@@ -1,0 +1,88 @@
+---
+    import "../css/A13nam.css";
+    import { fetchExperienceSection, fetchHorizontalCards } from "../lib/api/index";
+    import type { ExperienceSection, HorizontalCard } from "../lib/types/index";
+
+    const experienceSection: ExperienceSection | null = await fetchExperienceSection();
+    const horizontalCards: HorizontalCard[] = await fetchHorizontalCards();
+
+    // Sắp xếp cards theo thứ tự
+    const sortedCards = horizontalCards.sort((a, b) => a.thu_tu - b.thu_tu);
+---
+
+    {experienceSection?.section_active && (
+      <section class="experience-section">
+        <div class="container">
+          <div class="experience-grid">
+            <div class="experience-content">
+              <div class="experience-number">{experienceSection.experience_number}</div>
+              <h2 class="experience-title">{experienceSection.experience_title}</h2>
+              <p class="experience-description">
+                {experienceSection.experience_description}
+              </p>
+            </div>
+
+            <div class="experience-video">
+              {experienceSection.has_video && experienceSection.youtube_video_id ? (
+                <div class="video-container" onclick={`playVideo('${experienceSection.youtube_video_id}')`}>
+                  <!-- Video thumbnail/poster -->
+                  <div class="video-thumbnail" id="videoThumbnail">
+                    <img 
+                      src={experienceSection.has_custom_thumbnail ? experienceSection.video_thumbnail_url : `https://img.youtube.com/vi/${experienceSection.youtube_video_id}/maxresdefault.jpg`}
+                      alt={experienceSection.video_thumbnail_alt || "Video thumbnail"}
+                      class="thumbnail-image"
+                    />
+                    <div class="play-button-overlay">
+                      <button class="video-play-btn" aria-label="Phát video">
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- YouTube iframe (ẩn ban đầu) -->
+                  <iframe 
+                    id="youtubeIframe"
+                    width="100%" 
+                    height="100%"
+                    style="display: none;"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              ) : (
+                <div class="video-placeholder"
+                  style={`width: 100%; aspect-ratio: 16/9; border-radius: clamp(6px, 1vw, 12px); background-image: url('${experienceSection.has_custom_thumbnail ? experienceSection.video_thumbnail_url : 'https://noithathaiminh.com.vn/public/anh1/images/noi-that-phong-khach/noi-that-phong-khach-nhua-dai-loan-10.jpg'}'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;`}>
+                  <div class="no-video-message">
+                    <i class="fa-solid fa-video" style="font-size: 48px; color: rgba(255,255,255,0.8); margin-bottom: 8px;"></i>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 14px; margin: 0;">Video không khả dụng</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Thay thế horizontal cards bằng dữ liệu từ API -->
+          <div class="horizontal-cards-grid">
+            {sortedCards.map((card, index) => (
+              <div class="card-horizontal" data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
+                <div class="card-horizontal-image">
+                  <img src={card.baiviet.img_url} alt={card.baiviet.img_alt}>
+                  <div class="card-horizontal-overlay">
+                    <h3 class="card-horizontal-title">{card.baiviet.tieudebaiviet}</h3>
+                  </div>
+                </div>
+                <div class="card-horizontal-description">
+                  <p>{card.baiviet.meta_description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <script src="/js/A13nam.js" defer></script>

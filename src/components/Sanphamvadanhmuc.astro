@@ -48,8 +48,16 @@ Object.keys(postsByCategory).forEach((categorySlug) => {
 
 <section>
   <div class="product-background-section">
-    <!-- Categories Section -->
-    <div class="product-categories">
+    <img 
+      src="https://www.lanha.vn/wp-content/uploads/2023/06/Cac-phong-cach-thiet-ke-noi-that-3.jpg.webp"
+      alt="Các phong cách thiết kế nội thất"
+      loading="lazy"
+      decoding="async"
+      class="product-background-image"
+    />
+    <div class="product-content-overlay">
+      <!-- Categories Section -->
+      <div class="product-categories">
       {
         displayCategories.map((category, index) => (
           <div
@@ -123,42 +131,10 @@ Object.keys(postsByCategory).forEach((categorySlug) => {
             </div>
           );
         })
-      }
+    }
+    </div>
     </div>
   </div>
 </section>
 
 <script src="/js/Sanphamvadanhmuc.js" defer></script>
-
-<!-- <style>
-  .empty-product-slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #9ca3af;
-    border: 2px dashed #d1d5db;
-    border-radius: 8px;
-    padding: 20px;
-  }
-
-  .empty-product-slot i {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-
-  .empty-product-slot p {
-    font-size: 12px;
-    text-align: center;
-    margin: 0;
-  }
-
-  .product-showcase-parent {
-    display: none;
-  }
-
-  .product-showcase-parent.active {
-    display: grid;
-  }
-</style> -->

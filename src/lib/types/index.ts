@@ -144,3 +144,63 @@ export type CategoryDetail = {
   };
   baiviets: Post[];
 };
+
+export type ExperienceSection = {
+  id: number;
+  experience_number: string;
+  experience_title: string;
+  experience_description: string;
+  video_thumbnail_url: string;
+  video_thumbnail_alt: string | null;
+  youtube_video_id: string;
+  youtube_video_url: string;
+  section_active: boolean;
+  has_video: boolean;
+  has_custom_thumbnail: boolean;
+  updated_at: string;
+  created_at: string;
+};
+
+export type HorizontalCard = {
+  id: number;
+  thu_tu: number;
+  trang_thai: boolean;
+  baiviet: {
+    id: number;
+    tieudebaiviet: string;
+    slug: string;
+    img_url: string;
+    img_alt: string;
+    meta_description: string;
+    link: string;
+  };
+};
+
+// Footer types are now in Footer.ts
+
+export type Service = {
+  id: number;
+  title: string;
+  icon_image_url: string;
+  icon_alt: string;
+  description: string;
+  fanpage_url: string;
+  phone_number: string;
+  aos_delay: number;
+  sort_order: number;
+}
+
+export interface Partner {
+  id: number;
+  name: string;
+  logo_url: string;
+  logo_alt: string;
+  description?: string | null;
+  website_url?: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+// Note: Tttt Media types are now defined in ../api/index.ts

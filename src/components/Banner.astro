@@ -22,11 +22,13 @@ function getButtonText(banner: any) {
       {
         banners.map((banner, index) => (
           <div class="swiper-slide hero-slide">
-            <div
-              class="hero-bg"
-              style={`background-image: url('${banner.image_url}')`}
-              data-bg={banner.image_url}
-            />
+            <img
+                class="hero-bg"
+                src={banner.image_url}
+                alt={banner.title || "Banner image"}
+                loading="lazy"
+                decoding="async"
+              />
             <div class="hero-overlay">
               <div class="hero-content">
                 <h1 class="hero-title">{banner.title || ""}</h1>
