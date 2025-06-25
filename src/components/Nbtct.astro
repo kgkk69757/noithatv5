@@ -31,7 +31,6 @@ if (statsResult.status === 'rejected') {
 
 <section
   class="statistics-section"
-  style={`background-image: ${getBackgroundImage(bannerTitleSectionA)}`}
   role="region"
   aria-labelledby={bannerTitleSectionA?.has_title ? "stats-title" : undefined}
   aria-label={!bannerTitleSectionA?.has_title ? "Thống kê" : undefined}
@@ -44,6 +43,9 @@ if (statsResult.status === 'rejected') {
           alt={bannerTitleSectionA.banner_alt || "Background image"}
           class="hidden-bg-img"
           loading="lazy"
+          decoding="async"
+          width="1920"
+          height="600"
         />
       </div>
     )

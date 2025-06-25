@@ -1,0 +1,30 @@
+---
+import "../css/Doitac.css";
+import { fetchPartners } from "../lib/api/index";
+const partners = await fetchPartners();
+---
+
+<section class="partners-section">
+  <div class="partners-container">
+    <div class="partners-header">
+      <h2 class="partners-title">ĐỐI TÁC CỦA CHÚNG TÔI</h2>
+      <p class="partners-subtitle">
+        Hợp tác cùng những thương hiệu uy tín trong ngành
+      </p>
+    </div>
+    <div class="partners-grid">
+      {
+        partners.map((partner) => (
+          <div class="partner-item">
+            <div class="partner-logo">
+              <img
+                src={partner.logo_url}
+                alt={partner.logo_alt || partner.name}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

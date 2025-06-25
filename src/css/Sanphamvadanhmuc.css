@@ -432,11 +432,25 @@
 }
 
 .product-background-section {
-    background-image: url('https://www.lanha.vn/wp-content/uploads/2023/06/Cac-phong-cach-thiet-ke-noi-that-3.jpg.webp');
+    position: relative;
     padding-bottom: 20px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.product-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+}
+
+.product-content-overlay {
+    position: relative;
+    z-index: 2;
 }
 
 .empty-product-slot {

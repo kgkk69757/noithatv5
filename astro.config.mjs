@@ -1,10 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel/serverless';
 
-import vercel from '@astrojs/vercel';
-
-// https://astro.build/config
 export default defineConfig({
-    output: 'server',
-    adapter: vercel(),
+  output: 'server',
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true
+    }
+  })
+  // Loại bỏ toàn bộ cấu hình vite phức tạp
 });
