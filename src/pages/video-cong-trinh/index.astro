@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostListing from '../../components/PostListing.astro';
+import PageBanner from '../../components/shared/PageBanner.astro';
+
+const posts = [
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Video thực tế căn hộ chị Lan - The Origami',
+    description: 'Tham quan chi tiết không gian nội thất sau khi hoàn thiện.',
+    date: 'Ngày 10, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Biệt thự anh Hùng - The Harmony',
+    description: 'Cảm nhận của gia chủ và những góc quay ấn tượng nhất.',
+    date: 'Ngày 08, Tháng 07, 2025'
+  },
+    {
+    image: '/images/bandohoanchinh.png',
+    title: 'Video thực tế căn hộ chị Lan - The Origami',
+    description: 'Tham quan chi tiết không gian nội thất sau khi hoàn thiện.',
+    date: 'Ngày 10, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Biệt thự anh Hùng - The Harmony',
+    description: 'Cảm nhận của gia chủ và những góc quay ấn tượng nhất.',
+    date: 'Ngày 08, Tháng 07, 2025'
+  },
+];
+---
+
+<Layout>
+  <PageBanner 
+    title="Video Công Trình"
+    subtitle="Những thước phim chân thực từ các dự án đã hoàn thiện"
+  />
+  <PostListing 
+    title="Video Công Trình"
+    subtitle="Những thước phim chân thực từ các dự án đã hoàn thiện"
+    posts={posts}
+  />
+</Layout>

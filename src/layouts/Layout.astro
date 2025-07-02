@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Floating from "../components/Floating.astro";
 import type { SiteSettings } from "../lib/types/Header";
 import { fetchSiteSettings } from "../lib/api/Header";
 
@@ -70,6 +71,9 @@ try {
     <Header />
     <slot />
     <Footer />
+    <Floating />
+
+    <script src="/js/Layout.js" defer></script>
   </body>
 </html>
 

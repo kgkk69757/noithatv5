@@ -3,14 +3,22 @@ import "../css/Sanphamvadanhmuc.css";
 import {
   fetchPostCategories,
   fetchPosts,
+  fetchBannerTitleSection,
+  getBannerImage,
 } from "../lib/api/index";
 import type {
   PostCategory,
   Post,
+  BannerTitleSection,
 } from "../lib/types/index";
 
 const categories: PostCategory[] = await fetchPostCategories();
 const allPosts: Post[] = await fetchPosts();
+const bannerData: BannerTitleSection | null = await fetchBannerTitleSection();
+
+// Lấy thông tin ảnh từ API hoặc fallback
+const imageUrl = getBannerImage(bannerData) || "https://www.lanha.vn/wp-content/uploads/2023/06/Cac-phong-cach-thiet-ke-noi-that-3.jpg.webp";
+const imageAlt = bannerData?.alt_anh || "Các phong cách thiết kế nội thất";
 
 // Sắp xếp danh mục: thu_tu > 0 theo thứ tự tăng dần, thu_tu = 0 về cuối
 const displayCategories = categories
@@ -49,8 +57,8 @@ Object.keys(postsByCategory).forEach((categorySlug) => {
 <section>
   <div class="product-background-section">
     <img 
-      src="https://www.lanha.vn/wp-content/uploads/2023/06/Cac-phong-cach-thiet-ke-noi-that-3.jpg.webp"
-      alt="Các phong cách thiết kế nội thất"
+      src={imageUrl}
+      alt={imageAlt}
       loading="lazy"
       decoding="async"
       class="product-background-image"

@@ -28,6 +28,21 @@ if (!import.meta.env.BASE_API_URL) {
 const API_BASE = import.meta.env.BASE_API_URL;
 
 // Validation functions
+function validateBannerTitleSection(data: any): data is BannerTitleSection {
+  return (
+    typeof data === "object" &&
+    typeof data.id === "number" &&
+    typeof data.banner_url === "string" &&
+    typeof data.banner_alt === "string" &&
+    typeof data.title === "string" &&
+    typeof data.anh_url === "string" &&
+    typeof data.alt_anh === "string" &&
+    typeof data.has_banner === "boolean" &&
+    typeof data.has_title === "boolean" &&
+    typeof data.has_anh === "boolean"
+  );
+}
+
 function validateBannerTitleSectionA(data: any): data is BannerTitleSectionA {
   return (
     typeof data === "object" &&
@@ -78,6 +93,26 @@ export function getBackgroundImage(
   return `url('${DEFAULT_BACKGROUND}')`;
 }
 
+// Helper function for BannerTitleSection background image
+export function getBannerBackground(
+  bannerData: BannerTitleSection | null
+): string {
+  if (bannerData?.has_banner && bannerData.banner_url) {
+    return `url('${bannerData.banner_url.trim()}')`;
+  }
+  return `url('${DEFAULT_BACKGROUND}')`;
+}
+
+// Helper function for BannerTitleSection additional image
+export function getBannerImage(
+  bannerData: BannerTitleSection | null
+): string | null {
+  if (bannerData?.has_anh && bannerData.anh_url) {
+    return bannerData.anh_url.trim();
+  }
+  return null;
+}
+
 export { DEFAULT_TITLE, DEFAULT_BACKGROUND };
 // banner
 export async function fetchBanners(): Promise<Banner[]> {
@@ -114,13 +149,31 @@ export async function fetchServiceGrid(): Promise<ServiceGridItem[]> {
 export async function fetchBannerTitleSection(): Promise<BannerTitleSection | null> {
   try {
     const res = await fetch(
-      `${import.meta.env.BASE_API_URL}/banner-title-section`
+      `${import.meta.env.BASE_API_URL}/banner-title-section`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
+    
     if (!res.ok) {
-      throw new Error("Lỗi khi fetch banner title section");
+      throw new Error(`HTTP error! status: ${res.status}`);
     }
+    
     const json = await res.json();
-    return json.success ? json.data : null;
+    
+    if (!json.success) {
+      console.warn("API returned success: false for banner title section");
+      return null;
+    }
+    
+    if (!validateBannerTitleSection(json.data)) {
+      console.error("Invalid banner title section data structure:", json.data);
+      return null;
+    }
+    
+    return json.data;
   } catch (error) {
     console.error("Error fetching banner title section:", error);
     return null;
@@ -340,90 +393,8 @@ export async function fetchHorizontalCards(): Promise<HorizontalCard[]> {
 // Footer API functions are now in Footer.ts
 export { fetchFooterInfo, fetchPolicies } from "./Footer";
 
-// Tttt Media API - Simple and clean implementation
-export interface TtttMediaItem {
-  id: number;
-  title: string;
-  type: "video" | "tiktok";
-  media_id: string;
-  embed_code?: string;
-  is_youtube: boolean;
-  is_tiktok: boolean;
-  thu_tu: number;
-  trang_thai: boolean;
-}
 
-export interface TtttMediaData {
-  video_section: TtttMediaItem[];
-  tiktok_section: TtttMediaItem[];
-}
 
-export interface TtttApiResponse {
-  success: boolean;
-  data: TtttMediaData;
-  message?: string;
-}
-
-/**
- * Fetch media contents for Tttt component
- */
-export async function fetchTtttMediaContents(): Promise<TtttApiResponse> {
-  try {
-    const response = await fetch(`${import.meta.env.BASE_API_URL}/tttt-media`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data: TtttApiResponse = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching Tttt media contents:", error);
-    // Return fallback data
-    return {
-      success: false,
-      data: {
-        video_section: [],
-        tiktok_section: [],
-      },
-      message: "Failed to load media content",
-    };
-  }
-}
-
-/**
- * Get video items from Tttt media data
- */
-export function getTtttVideoItems(data: TtttMediaData): TtttMediaItem[] {
-  return data.video_section
-    .filter((item) => item.trang_thai)
-    .sort((a, b) => a.thu_tu - b.thu_tu);
-}
-
-/**
- * Get TikTok items from Tttt media data
- */
-export function getTtttTikTokItems(data: TtttMediaData): TtttMediaItem[] {
-  return data.tiktok_section
-    .filter((item) => item.trang_thai)
-    .sort((a, b) => a.thu_tu - b.thu_tu);
-}
-
-/**
- * Get media statistics for Tttt component
- */
-export function getTtttMediaStats(data: TtttMediaData) {
-  const videoItems = getTtttVideoItems(data);
-  const tiktokItems = getTtttTikTokItems(data);
-
-  return {
-    totalVideos: videoItems.length,
-    totalTikToks: tiktokItems.length,
-    totalItems: videoItems.length + tiktokItems.length,
-    youtubeVideos: videoItems.filter((item) => item.is_youtube).length,
-    tiktokVideos: tiktokItems.filter((item) => item.is_tiktok).length,
-  };
-}
 
 // Services API
 export interface ServiceApiResponse {
@@ -461,3 +432,60 @@ export async function fetchPartners(): Promise<Partner[]> {
     return [];
   }
 }
+
+// Media Contents API
+export async function fetchMediaContents(): Promise<MediaContentsResponse | null> {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_API_URL}/media-contents`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    
+    const json = await res.json();
+    
+    if (!json.success) {
+      console.warn("API returned success: false for media contents");
+      return null;
+    }
+    
+    return json as MediaContentsResponse;
+  } catch (error) {
+    console.error("Error fetching media contents:", error);
+    return null;
+  }
+}
+
+// Helper function to convert API data to legacy format
+export function convertToVideoItems(mediaContents: MediaContent[]): VideoItem[] {
+  return mediaContents
+    .filter(item => item.is_youtube)
+    .sort((a, b) => a.thu_tu - b.thu_tu)
+    .map(item => ({
+      id: item.id.toString(),
+      title: item.title,
+      media_id: item.media_id || '',
+      is_youtube: item.is_youtube,
+      embed_code: item.embed_code
+    }));
+}
+
+export function convertToTikTokItems(mediaContents: MediaContent[]): TikTokItem[] {
+  return mediaContents
+    .filter(item => item.is_tiktok)
+    .sort((a, b) => a.thu_tu - b.thu_tu)
+    .map(item => ({
+      id: item.id.toString(),
+      title: item.title,
+      media_id: item.media_id || '',
+      is_youtube: item.is_youtube,
+      thumbnail: item.thumbnail_url || '',
+      embed_url: item.media_url
+    }));
+}
+
+export * from './dich-vu';

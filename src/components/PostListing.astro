@@ -1,0 +1,51 @@
+---
+import '../css/PostListing.css';
+
+export interface Props {
+  title: string;
+  subtitle: string;
+  posts: {
+    image: string;
+    title: string;
+    description: string;
+    date: string;
+  }[];
+}
+
+const { title, subtitle, posts } = Astro.props;
+---
+
+<section class="post-listing-section">
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-title">{title}</h1>
+      <p class="section-subtitle">{subtitle}</p>
+    </div>
+
+    <div class="posts-grid">
+      {posts.map(post => (
+        <div class="post-card">
+          <a href="#" class="post-card-link">
+            <div class="post-image-wrapper">
+              <img src={post.image} alt={post.title} class="post-image" />
+            </div>
+            <div class="post-info">
+              <h3 class="post-title">{post.title}</h3>
+              <p class="post-description">{post.description}</p>
+              <span class="post-date">{post.date}</span>
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="page-link prev">&laquo;</a>
+      <a href="#" class="page-link active">1</a>
+      <a href="#" class="page-link">2</a>
+      <a href="#" class="page-link">3</a>
+      <a href="#" class="page-link next">&raquo;</a>
+    </div>
+
+  </div>
+</section>

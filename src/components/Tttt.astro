@@ -1,197 +1,98 @@
 ---
 import "../css/Tttt.css";
+import type { VideoItem, TikTokItem } from "../lib/types/index";
+import { 
+  fetchMediaContents, 
+  convertToVideoItems, 
+  convertToTikTokItems 
+} from "../lib/api/index";
 
-// Static data for frontend UI only
-const videoItems = [
-  {
-    id: 'youtube-1',
-    title: 'Video YouTube Demo',
-    media_id: 'eFIMruzx_Rs',
-    is_youtube: true,
-    embed_code: '<iframe width="560" height="315" src="https://www.youtube.com/embed/eFIMruzx_Rs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
-  }
-];
+// Fetch data from API
+const mediaData = await fetchMediaContents();
 
-const tiktokItems = [
-  {
-    id: 'tiktok-1',
-    title: 'Em Xinh Say Hi✨ | Tập 2 | CẦM KỲ THI HOẠ | Team Bích Phương',
-    media_id: '7513901363470945554',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@emxinhsayhi16/video/7513901363470945554" data-video-id="7513901363470945554" style="max-width: 605px;min-width: 325px;"> <section> <a target="_blank" title="@emxinhsayhi16" href="https://www.tiktok.com/@emxinhsayhi16?refer=embed">@emxinhsayhi16</a> Em Xinh Say Hi✨ | Tập 2 | CẦM KỲ THI HOẠ | Team Bích Phương <a title="emxinhsayhi" target="_blank" href="https://www.tiktok.com/tag/emxinhsayhi?refer=embed">#emxinhsayhi</a> <a title="sayhi" target="_blank" href="https://www.tiktok.com/tag/sayhi?refer=embed">#sayhi</a> <a title="emxinhsayhi2025" target="_blank" href="https://www.tiktok.com/tag/emxinhsayhi2025?refer=embed">#emxinhsayhi2025</a> <a title="xuhuong" target="_blank" href="https://www.tiktok.com/tag/xuhuong?refer=embed">#xuhuong</a> <a target="_blank" title="♬ nhạc nền  - 🌹EM XINH SAY HI✌️✨" href="https://www.tiktok.com/music/nhạc-nền-🌹EM-XINH-SAY-HI✌️✨-7513901436552481537?refer=embed">♬ nhạc nền  - 🌹EM XINH SAY HI✌️✨</a> </section> </blockquote>'
-  },
-  {
-    id: 'tiktok-2',
-    title: 'Nội Thất Sáng Tạo - Ý Tưởng Trang Trí Độc Đáo',
-    media_id: '7342838091574480129',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@deco.home86/video/7342838091574480129" data-video-id="7342838091574480129" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@deco.home86" href="https://www.tiktok.com/@deco.home86?refer=embed">@deco.home86</a><p>Nội thất sáng tạo - Khám phá những ý tưởng trang trí độc đáo #noithat #trangtri #diy</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-3',
-    title: 'DIY Trang Trí Phòng Ngủ Với Chi Phí Thấp',
-    media_id: '7342838091574480131',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@homedesign.vn/video/7342838091574480131" data-video-id="7342838091574480131" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@homedesign.vn" href="https://www.tiktok.com/@homedesign.vn?refer=embed">@homedesign.vn</a><p>DIY trang trí phòng ngủ với chi phí thấp #diy #phongngu #noithat #decor</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-4',
-    title: 'Hack Trang Trí Bếp Nhỏ Gọn Và Tiện Lợi',
-    media_id: '7342838091574480132',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@kitchen.tips/video/7342838091574480132" data-video-id="7342838091574480132" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@kitchen.tips" href="https://www.tiktok.com/@kitchen.tips?refer=embed">@kitchen.tips</a><p>Mẹo hay cho bếp nhỏ gọn và tiện lợi #bep #kitchen #lifehack #noithat</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-5',
-    title: 'Tạo Góc Thư Giãn Hoàn Hảo Trong Nhà',
-    media_id: '7342838091574480133',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@relaxcorner/video/7342838091574480133" data-video-id="7342838091574480133" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@relaxcorner" href="https://www.tiktok.com/@relaxcorner?refer=embed">@relaxcorner</a><p>Tạo góc thư giãn hoàn hảo trong nhà #relax #chill #noithat #decor</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-6',
-    title: 'Cách Bố Trí Cây Xanh Trong Nhà Đẹp Mắt',
-    media_id: '7342838091574480134',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@plantsathome/video/7342838091574480134" data-video-id="7342838091574480134" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@plantsathome" href="https://www.tiktok.com/@plantsathome?refer=embed">@plantsathome</a><p>Cách bố trí cây xanh trong nhà đẹp mắt #cayxanh #plants #noithat #green</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-7',
-    title: 'Phòng Tắm Minimalist Sang Trọng',
-    media_id: '7342838091574480135',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@bathroom.design/video/7342838091574480135" data-video-id="7342838091574480135" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@bathroom.design" href="https://www.tiktok.com/@bathroom.design?refer=embed">@bathroom.design</a><p>Phòng tắm tối giản nhưng sang trọng #phongtam #minimalist #noithat #design</p></section></blockquote>'
-  },
-  {
-    id: 'tiktok-8',
-    title: 'Sắp Xếp Tủ Quần Áo Gọn Gàng Và Khoa Học',
-    media_id: '7342838091574480136',
-    is_youtube: false,
-    embed_code: '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@organize.home/video/7342838091574480136" data-video-id="7342838091574480136" style="max-width: 605px; min-width: 325px;"><section><a target="_blank" title="@organize.home" href="https://www.tiktok.com/@organize.home?refer=embed">@organize.home</a><p>Sắp xếp tủ quần áo gọn gàng và khoa học #organize #tuquanao #sapxep #lifehack</p></section></blockquote>'
-  }
-];
+// Convert to legacy format or use fallback data
+let videoItems: VideoItem[] = [];
+let tiktokItems: TikTokItem[] = [];
 
-
+if (mediaData?.success) {
+  videoItems = convertToVideoItems(mediaData.data.video_section);
+  tiktokItems = convertToTikTokItems(mediaData.data.tiktok_section);
+} else {
+  // Fallback data
+  videoItems = [
+    {
+      id: 'youtube-1',
+      title: 'Video YouTube Demo',
+      media_id: 'eFIMruzx_Rs',
+      is_youtube: true,
+      embed_code: '<iframe width="560" height="315" src="https://www.youtube.com/embed/eFIMruzx_Rs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
+    }
+  ];
+  
+  tiktokItems = [
+    {
+      id: 'tiktok-1',
+      title: 'TikTok Demo',
+      media_id: '7513901363470945554',
+      is_youtube: false,
+      thumbnail: 'https://p16-sign-sg.tiktokcdn.com/obj/tos-alisg-p-0037/example',
+      embed_url: 'https://www.tiktok.com/embed/video/7513901363470945554'
+    }
+  ];
+}
 ---
 
-<section class="tttt-media-section" aria-label="Kênh truyền thông trực tuyến">
-  <div class="tttt-container">
+<section>
+  <div class="media-container">
+    <h1 class="media-slider-title">KÊNH TRUYỀN THÔNG TRỰC TUYẾN</h1>
 
-
-
-    <!-- Video Section -->
-    <section class="tttt-content-section tttt-video-section">
-      <div class="tttt-section-header">
-        <h2 class="tttt-section-title">
-          <span class="tttt-section-icon">🎬</span>
-          <span>Video Collection</span>
-        </h2>
-        {videoItems.length > 0 && (
-          <div class="tttt-section-count">{videoItems.length} videos</div>
-        )}
-      </div>
-
-      <div class="tttt-slider-container">
-        <div class="swiper tttt-video-swiper">
-          <div class="swiper-wrapper">
+    <!-- Horizontal Video List -->
+    <div class="media-video-container">
+      <div class="media-video-list" id="videoSlider">
         {videoItems.map((item, index) => (
-          <div class="swiper-slide">
-            <article 
-              class="tttt-media-card tttt-video-card" 
-              data-id={item.id}
-              data-index={index}
-              role="group"
-              aria-label={`Video ${index + 1}: ${item.title || 'Không có tiêu đề'}`}
-            >
-            <div class="tttt-card-media">
-              {item.is_youtube ? (
-                <div class="tttt-video-wrapper tttt-youtube-wrapper">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${item.media_id}?rel=0&modestbranding=1&playsinline=1`}
-                    title={item.title || `Video ${index + 1}`}
-                    frameborder="0"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                    aria-describedby={item.title ? `video-desc-${item.id}` : undefined}
-                  ></iframe>
-                </div>
-              ) : (
-                <div class="tttt-video-wrapper tttt-custom-wrapper">
-                  <Fragment set:html={item.embed_code} />
-                </div>
-              )}
-            </div>
-            
-            {item.title && (
-              <div class="tttt-card-content">
-                <h3 class="tttt-card-title" id={`video-desc-${item.id}`}>
-                  {item.title}
-                </h3>
-                <div class="tttt-card-meta">
-                  <span class="tttt-media-type">{item.is_youtube ? 'YouTube' : 'Custom'}</span>
-                </div>
-              </div>
-            )}
-            </article>
+          <div class="video-item">
+            <iframe
+              src={`https://www.youtube.com/embed/${item.media_id}`}
+              title={item.title}
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
           </div>
         ))}
-        </div>
       </div>
-    </section>
+    </div>
 
     <!-- TikTok Section -->
-    <section class="tttt-content-section tttt-tiktok-section">
-      <div class="tttt-section-header">
-        <h2 class="tttt-section-title">
-          <span class="tttt-section-icon">🎵</span>
-          <span>TikTok Collection</span>
-        </h2>
-        {tiktokItems.length > 0 && (
-          <div class="tttt-section-count">{tiktokItems.length} videos</div>
-        )}
-      </div>
+    <h1 class="media-slider-title media-tiktok-title">TikTok</h1>
 
-      <div class="tttt-slider-container">
-        <div class="swiper tttt-tiktok-swiper">
-          <div class="swiper-wrapper">
+    <div class="media-tiktok-container">
+      <div class="media-tiktok-list" id="tiktokSlider">
         {tiktokItems.map((item, index) => (
-          <div class="swiper-slide">
-            <article 
-              class="tttt-media-card tttt-tiktok-card" 
-              data-id={item.id}
-              data-index={index}
-              role="group"
-              aria-label={`TikTok ${index + 1}: ${item.title || 'Video TikTok'}`}
+          <div class="tiktok-item">
+            <blockquote
+              class="tiktok-embed"
+              cite={item.embed_url}
+              data-video-id={item.media_id}
+              style="max-width: 605px;min-width: 325px;"
             >
-            <div class="tttt-card-media">
-              <div class="tttt-tiktok-wrapper">
-                <Fragment set:html={item.embed_code} />
-              </div>
-            </div>
-            
-            {item.title && (
-              <div class="tttt-card-content">
-                <h3 class="tttt-card-title" id={`tiktok-desc-${item.id}`}>
-                  {item.title}
-                </h3>
-                <div class="tttt-card-meta">
-                  <span class="tttt-media-type">TikTok</span>
-                </div>
-              </div>
-            )}
-          </article>
+              <section>
+                <a
+                  target="_blank"
+                  title="@deco.home86"
+                  href="https://www.tiktok.com/@deco.home86?refer=embed"
+                  >@deco.home86
+                  </a>
+                {item.title}
+              </section>
+            </blockquote>
           </div>
         ))}
-          </div>
-        </div>
       </div>
-    </section>
+    </div>
   </div>
 </section>
 
-
-
 <!-- External JS -->
 <script src="/js/Tttt.js" defer></script>
-<script async src="https://www.tiktok.com/embed.js" defer></script>
+<script src="https://www.tiktok.com/embed.js" defer></script>
+

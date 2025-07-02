@@ -1,0 +1,32 @@
+---
+import "../../css/bgdich-vu.css";
+import { fetchTrangDichVu } from "../../lib/api/dich-vu";
+import type { TrangDichVu } from "../../lib/types/dich-vu";
+
+// Fetch dữ liệu từ API Laravel
+let trang: TrangDichVu | null;
+try {
+  trang = await fetchTrangDichVu();
+} catch (error) {
+  console.error("Lỗi khi lấy dữ liệu trang dịch vụ:", error);
+  trang = null;
+}
+
+// URL hình ảnh mặc định nếu không có dữ liệu từ API
+const defaultImageUrl = "https://rcong.vn/home/wp-content/uploads/2024/12/Hoang-My-rcong-1.jpg";
+// URL hình ảnh từ API nếu có
+const bannerImageUrl = trang?.anh_url || defaultImageUrl;
+---
+
+<section>
+  <div class="banner-container" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${bannerImageUrl}');`}>
+    <div class="banner-content">
+      <h1>
+        {trang?.tieude || "101+ Mẫu thiết kế nội thất đẹp cao cấp - báo giá dịch vụ thiết kế nội thất 2025"}
+      </h1>
+      <p>
+        {trang?.mota || "Để sở hữu không gian sống lý tưởng, thẩm mỹ nhưng vẫn đảm bảo công năng. Hãy tham khảo ngay các mẫu thiết kế nội thất đẹp lý tưởng mà Mạnh Hệ thực hiện, cùng những thông tin chi tiết về báo giá, quy trình và lưu ý cần biết khi thiết kế để chọn đơn vị phù hợp cho nhà mình!"}
+      </p>
+    </div>
+  </div>
+</section>

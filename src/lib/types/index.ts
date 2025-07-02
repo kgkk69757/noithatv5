@@ -37,8 +37,11 @@ export type BannerTitleSection = {
   banner_url: string;
   banner_alt: string;
   title: string;
+  anh_url: string;
+  alt_anh: string;
   has_banner: boolean;
   has_title: boolean;
+  has_anh: boolean;
   updated_at: string;
   created_at: string;
 };
@@ -203,4 +206,91 @@ export interface Partner {
   updated_at: string;
 }
 
-// Note: Tttt Media types are now defined in ../api/index.ts
+// Global type definitions for media components
+
+
+// Media section configuration
+export interface MediaSectionConfig {
+  autoplay?: boolean;
+  autoplayDelay?: number;
+  slidesPerView?: {
+    mobile: number;
+    tablet: number;
+    desktop: number;
+  };
+  spaceBetween?: {
+    mobile: number;
+    tablet: number;
+    desktop: number;
+  };
+}
+
+
+
+// Media Manager configuration interface
+export interface MediaManagerConfig {
+  responsive: {
+    mobile: { slidesPerView: number; spaceBetween: number };
+    tablet: { slidesPerView: number; spaceBetween: number };
+    desktop: { slidesPerView: number; spaceBetween: number };
+  };
+  autoplay: {
+    enabled: boolean;
+    delay: number;
+    pauseOnHover: boolean;
+  };
+  lazyLoad: {
+    enabled: boolean;
+    threshold: number;
+  };
+}
+
+
+// Media content types for Tttt component
+export type MediaContent = {
+  id: number;
+  title: string;
+  type: string;
+  section: string;
+  embed_code: string;
+  media_url: string;
+  media_id: string | null;
+  thumbnail_url: string | null;
+  thumbnail_alt: string | null;
+  thu_tu: number;
+  is_youtube: boolean;
+  is_tiktok: boolean;
+};
+
+export type MediaContentsResponse = {
+  success: boolean;
+  data: {
+    video_section: MediaContent[];
+    tiktok_section: MediaContent[];
+  };
+  meta: {
+    total_videos: number;
+    total_tiktoks: number;
+    total_items: number;
+    generated_at: string;
+  };
+};
+
+// Legacy types for backward compatibility
+export type VideoItem = {
+  id: string;
+  title: string;
+  media_id: string;
+  is_youtube: boolean;
+  embed_code?: string;
+};
+
+export type TikTokItem = {
+  id: string;
+  title: string;
+  media_id: string;
+  is_youtube: boolean;
+  thumbnail: string;
+  embed_url: string;
+};
+export * from './dich-vu';

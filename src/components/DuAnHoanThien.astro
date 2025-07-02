@@ -1,0 +1,68 @@
+---
+import '../css/DuAnHoanThien.css';
+
+const projects = [
+  {
+    image: '/images/bandohoanchinh.png',
+    category: 'Thiết kế nội thất chung cư',
+    title: 'Dự án căn hộ The Origami',
+    address: 'Vinhomes Grand Park, TP. Thủ Đức',
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    category: 'Thiết kế nội thất biệt thự',
+    title: 'Biệt thự vườn The Harmony',
+    address: 'Vinhomes Riverside, Long Biên, Hà Nội',
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    category: 'Thiết kế văn phòng',
+    title: 'Văn phòng công ty TechHub',
+    address: 'Tòa nhà Keangnam, Hà Nội',
+  },
+];
+---
+
+<section class="completed-projects-section">
+  <div class="container">
+    <div class="section-header">
+      <h1 class="section-title">Dự Án Đã Hoàn Thiện</h1>
+      <p class="section-subtitle">Những công trình tâm huyết được chúng tôi kiến tạo</p>
+    </div>
+
+    <div class="project-categories">
+      <button class="category-btn active">Tất cả dự án</button>
+      <button class="category-btn">Nội thất chung cư</button>
+      <button class="category-btn">Nội thất biệt thự</button>
+      <button class="category-btn">Nội thất văn phòng</button>
+    </div>
+
+    <div class="projects-grid">
+      {projects.map((project, index) => (
+        <div class="project-card">
+          <a href="#" class="project-card-link">
+            <div class="project-image-wrapper">
+              <img src={project.image} alt={project.title} class="project-image" />
+              <div class="project-overlay">
+                <span class="view-project-btn">Xem chi tiết</span>
+              </div>
+            </div>
+            <div class="project-info">
+              <p class="project-category">{project.category}</p>
+              <h3 class="project-title">{project.title}</h3>
+              <p class="project-address">{project.address}</p>
+            </div>
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="page-link prev">&laquo;</a>
+      <a href="#" class="page-link active">1</a>
+      <a href="#" class="page-link">2</a>
+      <a href="#" class="page-link">3</a>
+      <a href="#" class="page-link next">&raquo;</a>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,29 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "include": [
+    "src/**/*",
+    "src/lib/types/**/*",
+    "public/js/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "public/images/**/*",
+    "public/css/**/*"
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/lib/types"
+    ]
+  }
 }

@@ -1,174 +1,178 @@
-// Tttt.js - Simple Media Section with Swiper Integration
-
-// Media Section Manager Class
-class MediaSectionManager {
-  constructor() {
-    this.videoSwiper = null;
-    this.tiktokSwiper = null;
-    this.observer = null;
-    this.isInitialized = false;
-  }
-
-  init() {
-    if (this.isInitialized) return;
-    
-    try {
-      this.initializeSwiper();
-      this.setupIntersectionObserver();
-      this.logStatistics();
-      this.isInitialized = true;
-    } catch (error) {
-      console.error('MediaSectionManager initialization failed:', error);
+class TouchSlider {
+    constructor(element) {
+        this.slider = document.getElementById(element);
+        if (!this.slider) return;
+        this.isDown = false;
+        this.startX = 0;
+        this.scrollLeft = 0;
+        this.velocity = 0;
+        this.momentum = 0.95;
+        this.init();
     }
-  }
 
-  initializeSwiper() {
-    // Initialize Video Swiper
-    this.videoSwiper = new Swiper('.tttt-video-swiper', {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: false,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-      },
-      on: {
-        init: function() {
-          console.log('📹 Video Swiper initialized');
-        },
-        slideChange: function() {
-          console.log('📹 Video slide changed to:', this.activeIndex);
+    init() {
+        // Mouse events for drag
+        this.slider.addEventListener('mousedown', this.handleStart.bind(this));
+        this.slider.addEventListener('mouseleave', this.handleEnd.bind(this));
+        this.slider.addEventListener('mouseup', this.handleEnd.bind(this));
+        this.slider.addEventListener('mousemove', this.handleMove.bind(this));
+
+        // Touch events for mobile
+        this.slider.addEventListener('touchstart', this.handleStart.bind(this));
+        this.slider.addEventListener('touchend', this.handleEnd.bind(this));
+        this.slider.addEventListener('touchmove', this.handleMove.bind(this));
+
+        // Mouse wheel scrolling - improved
+        this.slider.addEventListener('wheel', this.handleWheel.bind(this));
+
+        // Prevent context menu and text selection
+        this.slider.addEventListener('contextmenu', (e) => e.preventDefault());
+        this.slider.addEventListener('selectstart', (e) => e.preventDefault());
+    }
+
+    handleStart(e) {
+        this.isDown = true;
+        this.slider.style.cursor = 'grabbing';
+        this.slider.style.userSelect = 'none';
+
+        const x = e.pageX || e.touches[0].pageX;
+        this.startX = x - this.slider.offsetLeft;
+        this.scrollLeft = this.slider.scrollLeft;
+        this.velocity = 0;
+
+        e.preventDefault();
+    }
+
+    handleEnd() {
+        this.isDown = false;
+        this.slider.style.cursor = 'grab';
+        this.slider.style.userSelect = '';
+
+        // Add momentum scrolling
+        if (Math.abs(this.velocity) > 0.5) {
+            this.applyMomentum();
         }
-      }
-    });
+    }
 
-    // Initialize TikTok Swiper
-    this.tiktokSwiper = new Swiper('.tttt-tiktok-swiper', {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: false,
-      autoplay: {
-        delay: 6000,
-        disableOnInteraction: false,
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-      },
-      on: {
-        init: function() {
-          console.log('🎵 TikTok Swiper initialized');
-        },
-        slideChange: function() {
-          console.log('🎵 TikTok slide changed to:', this.activeIndex);
+    handleMove(e) {
+        if (!this.isDown) return;
+        e.preventDefault();
+
+        const x = e.pageX || e.touches[0].pageX;
+        const walk = (x - this.startX) * 2.5; // Increased sensitivity
+        const newScrollLeft = this.scrollLeft - walk;
+
+        this.velocity = this.slider.scrollLeft - newScrollLeft;
+        this.slider.scrollLeft = newScrollLeft;
+    }
+
+    handleWheel(e) {
+        e.preventDefault();
+
+        // Horizontal scrolling with mouse wheel
+        const scrollAmount = e.deltaY * 1.2; // Increased sensitivity
+        this.slider.scrollLeft += scrollAmount;
+
+        // Add smooth scrolling
+        this.slider.style.scrollBehavior = 'auto';
+    }
+
+    applyMomentum() {
+        if (Math.abs(this.velocity) > 0.1) {
+            this.slider.scrollLeft -= this.velocity;
+            this.velocity *= this.momentum;
+            requestAnimationFrame(() => this.applyMomentum());
         }
-      }
-    });
-  }
-  
-  setupIntersectionObserver() {
-    // Check if IntersectionObserver is supported
-    if (!('IntersectionObserver' in window)) {
-      // Fallback: add in-view class to all cards immediately
-      document.querySelectorAll('.tttt-media-card').forEach(card => {
-        card.classList.add('in-view');
-      });
-      return;
-    }
-
-    const options = {
-      threshold: 0.1,
-      rootMargin: '50px'
-    };
-
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          // Unobserve after adding class for performance
-          this.observer.unobserve(entry.target);
-        }
-      });
-    }, options);
-
-    // Observe all media cards
-    const mediaCards = document.querySelectorAll('.tttt-media-card');
-    if (mediaCards.length === 0) {
-      console.warn('No media cards found for intersection observer');
-      return;
-    }
-    
-    mediaCards.forEach(card => {
-      this.observer.observe(card);
-    });
-  }
-
-  logStatistics() {
-    try {
-      const videoCount = document.querySelectorAll('.tttt-video-card').length;
-      const tiktokCount = document.querySelectorAll('.tttt-tiktok-card').length;
-      const totalCards = document.querySelectorAll('.tttt-media-card').length;
-      
-      console.log('📊 Tttt Media Statistics:');
-      console.log(`   📹 YouTube Videos: ${videoCount}`);
-      console.log(`   🎵 TikTok Videos: ${tiktokCount}`);
-      console.log(`   📱 Total Media Cards: ${totalCards}`);
-      
-      // Performance metrics
-      if (performance && performance.now) {
-        console.log(`   ⚡ Initialization time: ${performance.now().toFixed(2)}ms`);
-      }
-    } catch (error) {
-      console.error('Error logging statistics:', error);
-    }
-  }
-}
-
-// Cleanup function
-function cleanup() {
-    // Clean up Swiper instances
-    if (window.mediaManager && window.mediaManager.videoSwiper) {
-        window.mediaManager.videoSwiper.destroy(true, true);
-    }
-    if (window.mediaManager && window.mediaManager.tiktokSwiper) {
-        window.mediaManager.tiktokSwiper.destroy(true, true);
-    }
-    
-    // Clean up intersection observer
-    if (window.mediaManager && window.mediaManager.observer) {
-        window.mediaManager.observer.disconnect();
     }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        // Store instances globally for cleanup
-        window.mediaManager = new MediaSectionManager();
-        window.mediaManager.init();
-        
-        console.log('✅ Tttt component initialized successfully');
-    } catch (error) {
-        console.error('❌ Failed to initialize Tttt component:', error);
-    }
+// Arrow key navigation
+function addKeyboardNavigation(sliderId) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.closest(`#${sliderId}`)) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    slider.scrollLeft -= 200;
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    slider.scrollLeft += 200;
+                    break;
+            }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new TouchSlider('videoSlider');
+    new TouchSlider('tiktokSlider');
+
+    // Add keyboard navigation
+    addKeyboardNavigation('videoSlider');
+    addKeyboardNavigation('tiktokSlider');
 });
 
-// Cleanup on page unload
-window.addEventListener('beforeunload', cleanup);
-window.addEventListener('pagehide', cleanup);
+// Simple media slider functionality
+document.addEventListener('DOMContentLoaded', function () {
+    // Simple touch slider for video and tiktok lists
+    function initTouchSlider(elementId) {
+        const slider = document.getElementById(elementId);
+        if (!slider) return;
+
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+
+        // Mouse events
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Wheel scrolling
+        slider.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            slider.scrollLeft += e.deltaY;
+        });
+    }
+
+    // Initialize sliders
+    initTouchSlider('videoSlider');
+    initTouchSlider('tiktokSlider');
+});

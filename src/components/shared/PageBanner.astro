@@ -1,0 +1,24 @@
+---
+import "../../css/PageBanner.css";
+
+export interface Props {
+  title: string;
+  subtitle: string;
+  imageUrl?: string;
+}
+
+const { 
+  title = "Tiêu đề mặc định", 
+  subtitle = "Mô tả mặc định", 
+  imageUrl = "https://rcong.vn/home/wp-content/uploads/2024/12/Hoang-My-rcong-1.jpg" 
+} = Astro.props;
+---
+
+<section>
+  <div class="banner-container" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${imageUrl}');`}>
+    <div class="banner-content">
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
+    </div>
+  </div>
+</section>

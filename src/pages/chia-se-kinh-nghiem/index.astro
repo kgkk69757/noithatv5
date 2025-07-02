@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostListing from '../../components/PostListing.astro';
+import PageBanner from '../../components/shared/PageBanner.astro';
+
+const posts = [
+  {
+    image: '/images/bandohoanchinh.png',
+    title: '5 sai lầm cần tránh khi tự thi công nội thất',
+    description: 'Những kinh nghiệm xương máu giúp bạn tiết kiệm thời gian và chi phí.',
+    date: 'Ngày 15, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Làm việc với kiến trúc sư: Bí quyết để có một dự án thành công',
+    description: 'Cách giao tiếp và hợp tác hiệu quả với chuyên gia thiết kế.',
+    date: 'Ngày 12, Tháng 07, 2025'
+  },
+   {
+    image: '/images/bandohoanchinh.png',
+    title: '5 sai lầm cần tránh khi tự thi công nội thất',
+    description: 'Những kinh nghiệm xương máu giúp bạn tiết kiệm thời gian và chi phí.',
+    date: 'Ngày 15, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Làm việc với kiến trúc sư: Bí quyết để có một dự án thành công',
+    description: 'Cách giao tiếp và hợp tác hiệu quả với chuyên gia thiết kế.',
+    date: 'Ngày 12, Tháng 07, 2025'
+  },
+];
+---
+
+<Layout>
+  <PageBanner 
+    title="Chia Sẻ Kinh Nghiệm"
+    subtitle="Học hỏi từ những câu chuyện và bài học thực tế"
+  />
+  <PostListing 
+    title="Chia Sẻ Kinh Nghiệm"
+    subtitle="Học hỏi từ những câu chuyện và bài học thực tế"
+    posts={posts}
+  />
+</Layout>

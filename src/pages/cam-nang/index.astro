@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostListing from '../../components/PostListing.astro';
+import PageBanner from '../../components/shared/PageBanner.astro';
+
+const posts = [
+  {
+    image: '/images/bandohoanchinh.png',
+    title: '10 mẹo trang trí phòng khách nhỏ',
+    description: 'Khám phá những cách thông minh để tối ưu không gian cho phòng khách của bạn.',
+    date: 'Ngày 20, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Chọn vật liệu cho bếp: Nên và không nên',
+    description: 'Phân tích ưu nhược điểm của các loại vật liệu phổ biến cho không gian bếp hiện đại.',
+    date: 'Ngày 18, Tháng 07, 2025'
+  },
+    {
+    image: '/images/bandohoanchinh.png',
+    title: '10 mẹo trang trí phòng khách nhỏ',
+    description: 'Khám phá những cách thông minh để tối ưu không gian cho phòng khách của bạn.',
+    date: 'Ngày 20, Tháng 07, 2025'
+  },
+  {
+    image: '/images/bandohoanchinh.png',
+    title: 'Chọn vật liệu cho bếp: Nên và không nên',
+    description: 'Phân tích ưu nhược điểm của các loại vật liệu phổ biến cho không gian bếp hiện đại.',
+    date: 'Ngày 18, Tháng 07, 2025'
+  },
+];
+---
+
+<Layout>
+  <PageBanner 
+    title="Cẩm Nang Nội Thất"
+    subtitle="Kiến thức và cảm hứng cho không gian sống của bạn"
+  />
+  <PostListing 
+    title="Cẩm Nang Nội Thất"
+    subtitle="Kiến thức và cảm hứng cho không gian sống của bạn"
+    posts={posts}
+  />
+</Layout>

@@ -1,362 +1,402 @@
-:root {
-    --swiper-theme-color: #007aff;
-    --tttt-modal-bg: rgba(0, 0, 0, 0.9);
-    --tttt-modal-content-bg: #fff;
-    --tttt-transition-speed: 0.3s;
-    --tttt-border-radius: 8px;
-    --tttt-primary-color: #007bff;
-    --tttt-error-color: #dc3545;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Enhanced styles for better visual hierarchy */
-.tttt-media-section {
-  --primary-color: #2563eb;
-  --secondary-color: #64748b;
-  --accent-color: #f59e0b;
-  --success-color: #10b981;
-  --error-color: #ef4444;
-  --border-radius: 12px;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
 }
 
-.tttt-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 32px);
 }
 
-
-
-.tttt-error-state {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+.slider-title {
+    text-align: center;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 600;
+    color: #333;
+    margin-bottom: clamp(24px, 6vw, 40px);
 }
 
-.tttt-error-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+/* Video List Container */
+.video-list-container {
+    background: white;
+    border-radius: clamp(12px, 3vw, 20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: clamp(20px, 4vw, 32px);
+    overflow: hidden;
 }
 
-.tttt-error-icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
+.video-list-horizontal {
+    display: flex;
+    overflow-x: auto;
+    gap: clamp(16px, 3vw, 24px);
+    padding-bottom: clamp(8px, 1vw, 12px);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-x;
+    position: relative;
 }
 
-.tttt-error-text h3 {
-  color: var(--error-color);
-  margin-bottom: 0.5rem;
+.video-list-horizontal::-webkit-scrollbar {
+    display: none;
 }
 
-.tttt-content-section {
-  margin-bottom: 4rem;
+.video-list-horizontal:active {
+    cursor: grabbing;
 }
 
-.tttt-section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2rem;
+/* Add visual feedback for scrollable areas */
+.video-list-horizontal::before {
+    content: '← Kéo hoặc cuộn để xem thêm →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666;
+    opacity: 0.7;
+    pointer-events: none;
+    white-space: nowrap;
 }
 
-.tttt-section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
+.video-list-horizontal:hover::before {
+    opacity: 1;
 }
 
-.tttt-section-count {
-  background: var(--primary-color);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
+/* Video Item */
+.video-item {
+    background: #f8f9fa;
+    border-radius: clamp(8px, 2vw, 12px);
+    overflow: hidden;
+    min-width: clamp(280px, 35vw, 350px);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
-/* Swiper Styles */
-.tttt-video-swiper,
-.tttt-tiktok-swiper {
-  width: 100%;
-  height: auto;
-  overflow: visible;
+.video-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.tttt-video-swiper .swiper-wrapper,
-.tttt-tiktok-swiper .swiper-wrapper {
-  display: flex;
+.video-item iframe {
+    width: 100%;
+    height: clamp(150px, 20vw, 200px);
+    border: none;
+    border-radius: clamp(8px, 2vw, 12px) clamp(8px, 2vw, 12px) 0 0;
 }
 
-.tttt-video-swiper .swiper-slide,
-.tttt-tiktok-swiper .swiper-slide {
-  width: 300px;
-  flex-shrink: 0;
+/* TikTok Section */
+.tiktok-title {
+    margin-top: clamp(40px, 8vw, 60px);
+    background: linear-gradient(45deg, #ff0050, #00f2ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Slider Container */
-.tttt-slider-container {
-  position: relative;
-  margin-bottom: 1rem;
-  overflow: hidden;
+.tiktok-list-container {
+    background: linear-gradient(135deg, #ff0050 0%, #ff4081 50%, #00f2ea 100%);
+    border-radius: clamp(12px, 3vw, 20px);
+    box-shadow: 0 8px 32px rgba(255, 0, 80, 0.2);
+    padding: clamp(20px, 4vw, 32px);
+    overflow: hidden;
+    margin-bottom: clamp(20px, 4vw, 40px);
 }
 
-.tttt-media-card {
-  background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px);
+.tiktok-list-horizontal {
+    display: flex;
+    overflow-x: auto;
+    gap: clamp(16px, 3vw, 24px);
+    padding-bottom: clamp(8px, 1vw, 12px);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-x;
+    position: relative;
 }
 
-.tttt-media-card.in-view {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+.tiktok-list-horizontal::-webkit-scrollbar {
+    display: none;
 }
 
-.tttt-card-media {
-  position: relative;
-  overflow: hidden;
+.tiktok-list-horizontal:active {
+    cursor: grabbing;
 }
 
-.tttt-video-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.tiktok-list-horizontal::before {
+    content: '← Kéo hoặc cuộn để xem thêm →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0.7;
+    pointer-events: none;
+    white-space: nowrap;
 }
 
-.tttt-video-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.tiktok-list-horizontal:hover::before {
+    opacity: 1;
 }
 
-.tttt-video-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  pointer-events: none;
+.tiktok-item {
+    /* background: rgba(255, 255, 255, 0.95); */
+    border-radius: clamp(12px, 3vw, 16px);
+    overflow: hidden;
+    /* min-width: clamp(325px, 30vw, 605px); */
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
+    cursor: pointer;
 }
 
-/* Focus states for accessibility */
-.tttt-video-wrapper:focus {
-  outline: 2px solid var(--tttt-primary-color);
-  outline-offset: 2px;
-  border-radius: var(--tttt-border-radius);
+.tiktok-item:hover {
+    /* transform: translateY(-6px); */
+    /* box-shadow: 0 12px 35px rgba(255, 0, 80, 0.25); */
 }
 
-/* Loading state */
-.tttt-video-wrapper.loading::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid var(--tttt-primary-color);
-  border-radius: 50%;
-  animation: tttt-spin 1s linear infinite;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-}
-
-@keyframes tttt-spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Error state */
-.tttt-video-wrapper .error-message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--tttt-error-color);
-  color: white;
-  padding: 10px 15px;
-  border-radius: var(--tttt-border-radius);
-  font-size: 14px;
-  text-align: center;
-  z-index: 10;
-}
-
-.tttt-play-button {
-  width: 4rem;
-  height: 4rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-}
-
-.tttt-play-button svg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.tttt-tiktok-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tttt-card-content {
-  padding: 1rem;
-}
-
-.tttt-card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-}
-
-.tttt-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.tttt-media-type {
-  background: #f3f4f6;
-  color: #6b7280;
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.tttt-fallback-badge {
-  background: var(--accent-color);
-  color: white;
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.tttt-load-error {
-  background: #fef2f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tttt-load-error::after {
-  content: "⚠️ Không thể tải video";
-  color: var(--error-color);
-  font-size: 0.875rem;
+.tiktok-embed {
+    border-radius: clamp(12px, 3vw, 16px);
+    width: 100%;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .video-item {
+        min-width: clamp(250px, 30vw, 300px);
+    }
+}
+
 @media (max-width: 768px) {
-  .tttt-container {
-    padding: 1rem;
-  }
+    .video-list-horizontal {
+        gap: clamp(12px, 2vw, 16px);
+    }
 
+    .video-item {
+        min-width: clamp(220px, 28vw, 280px);
+    }
 
-
-  .tttt-section-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .tttt-media-grid {
-    grid-template-columns: 1fr;
-  }
+    .tiktok-item {
+        min-width: clamp(300px, 90vw, 350px);
+    }
 }
 
-/* Navigation and dots removed - using Swiper only */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 clamp(12px, 3vw, 20px);
+    }
 
-/* Slider Responsive */
+    .video-item {
+        min-width: clamp(200px, 25vw, 250px);
+    }
+}
+
+/* Media Section */
+.media-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 32px);
+}
+
+.media-slider-title {
+    text-align: center;
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 600;
+    color: #333;
+    margin-bottom: clamp(24px, 6vw, 40px);
+}
+
+/* Video List Container */
+.media-video-container {
+    /* background: white; */
+    border-radius: clamp(12px, 3vw, 20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: clamp(20px, 4vw, 32px);
+    overflow: hidden;
+}
+
+.media-video-list {
+    display: flex;
+    overflow-x: auto;
+    gap: clamp(16px, 3vw, 24px);
+    padding-bottom: clamp(8px, 1vw, 12px);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-x;
+    position: relative;
+}
+
+.media-video-list::-webkit-scrollbar {
+    display: none;
+}
+
+.media-video-list:active {
+    cursor: grabbing;
+}
+
+/* Add visual feedback for scrollable areas */
+.media-video-list::before {
+    content: '← Kéo hoặc cuộn để xem thêm →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666;
+    opacity: 0.7;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.media-video-list:hover::before {
+    opacity: 1;
+}
+
+/* Video Item */
+.media-video-item {
+    background: #f8f9fa;
+    border-radius: clamp(8px, 2vw, 12px);
+    overflow: hidden;
+    min-width: clamp(280px, 35vw, 350px);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.media-video-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.media-video-item iframe {
+    width: 100%;
+    height: clamp(150px, 20vw, 200px);
+    border: none;
+    border-radius: clamp(8px, 2vw, 12px) clamp(8px, 2vw, 12px) 0 0;
+}
+
+/* TikTok Section */
+.media-tiktok-title {
+    margin-top: clamp(40px, 8vw, 60px);
+    background: linear-gradient(45deg, #ff0050, #00f2ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.media-tiktok-container {
+    background: linear-gradient(135deg, #ff0050 0%, #ff4081 50%, #00f2ea 100%);
+    border-radius: clamp(12px, 3vw, 20px);
+    box-shadow: 0 8px 32px rgba(255, 0, 80, 0.2);
+    padding: clamp(20px, 4vw, 32px);
+    overflow: hidden;
+    margin-bottom: clamp(20px, 4vw, 40px);
+}
+
+.media-tiktok-list {
+    display: flex;
+    overflow-x: auto;
+    gap: clamp(16px, 3vw, 24px);
+    padding-bottom: clamp(8px, 1vw, 12px);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-x;
+    position: relative;
+}
+
+.media-tiktok-list::-webkit-scrollbar {
+    display: none;
+}
+
+.media-tiktok-list:active {
+    cursor: grabbing;
+}
+
+.media-tiktok-list::before {
+    content: '← Kéo hoặc cuộn để xem thêm →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0.7;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.media-tiktok-list:hover::before {
+    opacity: 1;
+}
+
+.media-tiktok-item {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: clamp(12px, 3vw, 16px);
+    overflow: hidden;
+    min-width: clamp(325px, 30vw, 605px);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.media-tiktok-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(255, 0, 80, 0.25);
+}
+
+.media-tiktok-embed {
+    border-radius: clamp(12px, 3vw, 16px);
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .video-item {
+        min-width: clamp(250px, 30vw, 300px);
+    }
+}
+
 @media (max-width: 768px) {
-  .slider-slide {
-    padding: 0 0.5rem;
-  }
-  
-  .slider-btn {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  
-  .slider-btn svg {
-    width: 1rem;
-    height: 1rem;
-  }
-  
-  .slider-dots {
-    margin-top: 1rem;
-  }
-  
-  .slider-dot {
-    width: 0.625rem;
-    height: 0.625rem;
-  }
+    .video-list-horizontal {
+        gap: clamp(12px, 2vw, 16px);
+    }
+
+    .video-item {
+        min-width: clamp(220px, 28vw, 280px);
+    }
+
+    .tiktok-item {
+        min-width: clamp(300px, 90vw, 350px);
+    }
 }
 
+@media (max-width: 480px) {
+    .container {
+        padding: 0 clamp(12px, 3vw, 20px);
+    }
 
-
-
-
-/* Mobile modal adjustments */
-@media (max-width: 768px) {
-  .tttt-modal-content {
-    width: 95%;
-    max-height: 95%;
-  }
-  
-  .tttt-modal-header {
-    padding: 0.75rem;
-  }
-  
-  .tttt-modal-title {
-    font-size: 1rem;
-  }
-  
-  .tttt-modal-close {
-    width: 35px;
-    height: 35px;
-    font-size: 1.25rem;
-  }
-}
-
-/* TikTok embed natural sizing */
-.tttt-card-media blockquote {
-  width: auto !important;
-  height: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-  min-width: auto !important;
-  min-height: auto !important;
-}
-
-/* Screen reader only */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+    .video-item {
+        min-width: clamp(200px, 25vw, 250px);
+    }
 }
