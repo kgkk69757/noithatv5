@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageBanner from "../../components/shared/PageBanner.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import "../../css/bai-viet.css";
+import { fetchBaiViets } from "../../lib/api/bai-viet-listing";
+
+const searchQuery = Astro.url.searchParams.get('q');
+const categorySlug = Astro.url.searchParams.get('category');
+const { articles, categories } = await fetchBaiViets(searchQuery || undefined, categorySlug || undefined);
+
+const title = "Tổng hợp bài viết";
+const description = "Trang tổng hợp các bài viết.";
+const keywords = "bài viết, tổng hợp, tin tức";
+
+const bannerTitle = "Bài viết";
+const bannerSubtitle = "Tổng hợp các bài viết nổi bật";
+const bannerImageUrl = "https://rcong.vn/home/wp-content/uploads/2024/12/Hoang-My-rcong-1.jpg";
+---
+
+<Layout title={title} description={description} keywords={keywords}>
+  <PageBanner title={bannerTitle} subtitle={bannerSubtitle} imageUrl={bannerImageUrl} />
+
+  <section class="article-overview-section">
+    <div class="container main-content-area">
+      <div class="articles-container">
+        {
+          articles && articles.length > 0 ? (
+            <div class="article-grid">
+              {articles.map((baiViet) => (
+                <article class="article-card">
+                  <a href={`/bai-viet/${baiViet.slug}`}>
+                    <img src={baiViet.img_url} alt={baiViet.img_alt || baiViet.tieudebaiviet} />
+                  </a>
+                  <h2>
+                    <a href={`/bai-viet/${baiViet.slug}`}>{baiViet.tieudebaiviet}</a>
+                  </h2>
+                  <p set:html={baiViet.noidung.substring(0, 150) + '...'} />
+                  <a href={`/bai-viet/${baiViet.slug}`} class="read-more">Đọc thêm</a>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div class="no-content">
+              <h3>Không có bài viết nào để hiển thị.</h3>
+              <p>Vui lòng thử lại sau.</p>
+            </div>
+          )
+        }
+      </div>
+      <BlogSidebar categories={categories} />
+    </div>
+  </section>
+</Layout>
+

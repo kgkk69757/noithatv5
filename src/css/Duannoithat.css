@@ -36,7 +36,7 @@
 
 .services-grid {
     display: grid;
-    height: 600px;
+    height: 660px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 8px;
@@ -48,7 +48,7 @@
 /* CSS MỚI CHO HIỆU ỨNG CUỘN DỌC BẰNG ANIMATION */
 .vertical-scroller {
     /* Đã đổi tên từ .vertical-slider */
-    max-height: 600px;
+    max-height: 660px;
     /* Giữ chiều cao tương tự .services-grid */
     overflow: hidden;
     /* Quan trọng: ẩn phần thừa khi animation */

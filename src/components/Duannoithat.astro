@@ -74,7 +74,7 @@ const positions = [
           if (!item) return null;
 
           return (
-            <div class={`service-card ${position}`}>
+            <a href={item.baiviet.slug ? `/bai-viet/${item.baiviet.slug}` : "#"} class={`service-card ${position}`}>
               <img
                 src={item.baiviet.img_url}
                 alt={item.baiviet.img_alt || "Ảnh bài viết"}
@@ -94,7 +94,7 @@ const positions = [
                     item.baiviet.meta_description}
                 </p>
               </div>
-            </div>
+            </a>
           );
         })
       }
@@ -105,7 +105,7 @@ const positions = [
       <div class="vertical-slider-wrapper">
         {
           sortedServiceCards.map((serviceCard) => (
-            <div class="service-card-x">
+            <a href={serviceCard.baiviet.slug ? `/bai-viet/${serviceCard.baiviet.slug}` : "#"} class="service-card-x">
               <img
                 src={serviceCard.baiviet.img_url}
                 alt={serviceCard.baiviet.img_alt}
@@ -125,7 +125,7 @@ const positions = [
                     serviceCard.baiviet.meta_description}
                 </p>
               </div>
-            </div>
+            </a>
           ))
         }
       </div>

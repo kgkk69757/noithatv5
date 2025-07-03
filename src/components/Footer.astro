@@ -2,95 +2,55 @@
 import "../css/Footer.css";
 
 // Import APIs
-import { fetchFooterInfo, fetchPolicies } from "../lib/api/Footer";
-import type { FooterInfo, PolicyCategory } from "../lib/types/Footer";
+import { fetchFooterPosts, fetchImageAlt, fetchCompanyInfo } from "../lib/api/Footer";
+import type { FooterPost, ImageAlt, CompanyInfo } from "../lib/types/Footer";
 import { fetchActivePhones } from "../lib/api/Header";
 import type { Phone } from "../lib/types/Header";
 
-const footerInfo: FooterInfo | null = await fetchFooterInfo();
-const policyCategories: PolicyCategory[] = await fetchPolicies();
+const footerPosts: FooterPost[] = await fetchFooterPosts();
 const phones: Phone[] = await fetchActivePhones();
 const primaryPhone =
   phones.find((phone) => phone.display_order === 1) || phones[0];
 
-// Fallback data for policy categories
-const fallbackPolicyCategories: PolicyCategory[] = [
-  {
-    id: 1,
-    ten_danh_muc: "Chính sách",
-    slug: "chinh-sach",
-    thu_tu: 1,
-    links: [
-      { 
-        id: 1,
-        title: "Chính sách bảo hành",
-        loai: "policy",
-        id_nguon: 1,
-        detail: { 
-          id: 1,
-          tieu_de: "Chính sách bảo hành",
-          slug: "chinh-sach-bao-hanh",
-          url: "/chinh-sach-bao-hanh" 
-        } 
-      },
-      { 
-        id: 2,
-        title: "Chính sách đổi trả",
-        loai: "policy",
-        id_nguon: 2,
-        detail: { 
-          id: 2,
-          tieu_de: "Chính sách đổi trả",
-          slug: "chinh-sach-doi-tra",
-          url: "/chinh-sach-doi-tra" 
-        } 
-      },
-      { 
-        id: 3,
-        title: "Chính sách vận chuyển",
-        loai: "policy",
-        id_nguon: 3,
-        detail: { 
-          id: 3,
-          tieu_de: "Chính sách vận chuyển",
-          slug: "chinh-sach-van-chuyen",
-          url: "/chinh-sach-van-chuyen" 
-        } 
-      }
-    ]
-  }
-];
+const imageAlt: ImageAlt | null = await fetchImageAlt();
+const companyInfo: CompanyInfo | null = await fetchCompanyInfo();
 
-// Use fallback if no policy categories available
-const displayPolicyCategories = policyCategories.length > 0 ? policyCategories : fallbackPolicyCategories;
+// Group footer posts by their title (tentieude)
+const groupedPosts = new Map<string, FooterPost[]>();
+
+footerPosts.forEach(post => {
+  const title = post.tieudebaivietfooter.tentieude;
+  if (!groupedPosts.has(title)) {
+    groupedPosts.set(title, []);
+  }
+  groupedPosts.get(title)?.push(post);
+});
+
+
 ---
 
 <!-- Footer Section -->
 <footer class="footer-section">
   <div class="footer-container">
     <div class="footer-grid">
-      <!-- Company Info -->
+      <!-- Company Info (using static data as new API doesn't provide this) -->
       <div class="footer-column">
         <h3 class="footer-title">
-          {footerInfo?.footer_title || "CÔNG TY TNHH BẾP NHÀ BẠN"}
+          {companyInfo?.footer_title || "CÔNG TY TNHH BẾP NHÀ BẠN"}
         </h3>
         <div class="footer-content">
-          <p>{footerInfo?.text || "Chuyên cung cấp thiết bị bếp chất lượng cao"}</p>
+          <p>{companyInfo?.text || "Chuyên cung cấp thiết bị bếp chất lượng cao"}</p>
         </div>
       </div>
 
-      <!-- Policy Categories -->
+      <!-- Footer Posts (grouped by title from new API) -->
       {
-        displayPolicyCategories.map((category) => (
+        Array.from(groupedPosts.entries()).map(([title, posts]) => (
           <div class="footer-column">
-            <h3 class="footer-title">{category.ten_danh_muc.toUpperCase()}</h3>
+            <h3 class="footer-title">{title.toUpperCase()}</h3>
             <div class="footer-content">
-              {category.links.map((link) => (
-                <p>
-                  <a href={link.detail.url} class="footer-link">
-                    {link.title}
-                  </a>
-                </p>
+              {posts.map(post => (
+                <p>{post.noidung}</p>
               ))}
             </div>
           </div>
@@ -100,15 +60,17 @@ const displayPolicyCategories = policyCategories.length > 0 ? policyCategories :
       <!-- Registration Form -->
       <div class="footer-column">
         <h3 class="footer-title">ĐĂNG KÝ TƯ VẤN</h3>
-        <form class="registration-form">
+        <form id="registration-form" class="registration-form">
           <input
             type="text"
+            id="ho-va-ten"
             placeholder="HỌ VÀ TÊN *"
             class="form-input"
             required
           />
           <input
             type="tel"
+            id="so-dien-thoai"
             placeholder="SỐ ĐIỆN THOẠI *"
             class="form-input"
             required
@@ -121,18 +83,13 @@ const displayPolicyCategories = policyCategories.length > 0 ? policyCategories :
         <div class="qr-section">
           <p class="qr-title">LIÊN HỆ QUA ZALO</p>
           <div class="qr-code">
-            {
-              footerInfo?.logo && (
-                <img
-                  src={footerInfo.logo}
-                  alt={footerInfo.logo_alt || "Logo công ty"}
-                  width="180"
-                  height="60"
-                  decoding="async"
-                  style="width: auto; height: auto; max-width: 100%; display: block"
-                />
-              )
-            }
+            <img
+              src={imageAlt?.img || "https://unsplash.com/photos/birds-fly-over-a-tranquil-ocean-scene-p05heiNYHMI"} alt="QR Code"
+              width="180"
+              height="180"
+              decoding="async"
+              style="width: auto; height: auto; max-width: 100%; display: block"
+            />
             <p>Quét mã QR</p>
           </div>
         </div>
@@ -152,7 +109,7 @@ const displayPolicyCategories = policyCategories.length > 0 ? policyCategories :
           <p><i class="fas fa-envelope"></i> Email: info@bepnhaban.com</p>
         </div>
 
-        <img src="https://unsplash.com/photos/birds-fly-over-a-tranquil-ocean-scene-p05heiNYHMI" alt="Bản đồ vị trí công ty" />
+        
 
         <div class="working-hours">
           <p class="hours-title">THỜI GIAN LÀM VIỆC</p>
@@ -182,3 +139,46 @@ const displayPolicyCategories = policyCategories.length > 0 ? policyCategories :
     </div>
   </div>
 </footer>
+
+<script type="module">
+  // ai không đc động vào dòng code này
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("registration-form");
+    const message = document.getElementById("form-message");
+
+    if (!form || !message) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const hoVaTen = document.getElementById("ho-va-ten")?.value.trim() || "";
+      const soDienThoai = document.getElementById("so-dien-thoai")?.value.trim() || "";
+
+      try {
+        const response = await fetch(`${import.meta.env.BASE_API_URL}/dang-ky-tu-van`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            ho_va_ten: hoVaTen,
+            so_dien_thoai: soDienThoai,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          message.innerText = "✅ Đăng ký thành công!";
+          form.reset();
+        } else {
+          message.innerText = "❌ " + (result.message || "Có lỗi xảy ra.");
+        }
+      } catch (err) {
+        message.innerText = "❌ Không thể gửi yêu cầu. Vui lòng thử lại.";
+        console.error(err);
+      }
+    });
+  });
+</script>

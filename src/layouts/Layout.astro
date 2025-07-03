@@ -5,6 +5,17 @@ import Floating from "../components/Floating.astro";
 import type { SiteSettings } from "../lib/types/Header";
 import { fetchSiteSettings } from "../lib/api/Header";
 
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+}
+
+const { 
+  title = "Nội Thất V5 - Thiết Kế & Thi Công Nội Thất Chuyên Nghiệp", 
+  description = "Nội Thất V5 chuyên thiết kế và thi công nội thất trọn gói, mang đến không gian sống đẳng cấp và tiện nghi. Liên hệ ngay để được tư vấn!", 
+  keywords = "thiết kế nội thất, thi công nội thất, nội thất trọn gói, nội thất cao cấp, nội thất V5"
+} = Astro.props;
 
 let faviconUrl = "/favicon.svg";
 let faviconAlt = "Favicon";
@@ -29,8 +40,9 @@ try {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={faviconUrl} />
-    <!-- <meta name="generator" content={Astro.generator} /> -->
-    <title>{siteName}</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <style>
       /* Critical CSS cho above-the-fold content */
       html,
@@ -73,7 +85,22 @@ try {
     <Footer />
     <Floating />
 
-    <script src="/js/Layout.js" defer></script>
+    <script>
+      const backToTopButton = document.getElementById('back-to-top');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) { // Show button after scrolling 300px
+          backToTopButton.classList.add('show');
+        } else {
+          backToTopButton.classList.remove('show');
+        }
+      });
+
+      backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    </script>
   </body>
 </html>
 

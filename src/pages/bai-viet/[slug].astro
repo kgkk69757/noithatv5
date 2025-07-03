@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { fetchBaiVietBySlug } from "../../lib/api/bai-viet-detail";
+import { fetchBaiViets } from "../../lib/api/bai-viet-listing"; // To get categories
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import "../../css/bai-viet-detail.css";
+
+
+
+const { slug } = Astro.params;
+const baiViet = await fetchBaiVietBySlug(slug);
+const { categories } = await fetchBaiViets(); // Fetch all categories for the sidebar
+
+if (!baiViet) {
+  return Astro.redirect("/404");
+}
+
+const title = baiViet.meta_title || baiViet.tieudebaiviet;
+const description = baiViet.meta_description || baiViet.noidung.substring(0, 160);
+const keywords = baiViet.keyword || "";
+const ogImageUrl = baiViet.og_image_url || baiViet.img_url;
+---
+
+<Layout title={title} description={description} keywords={keywords} ogImageUrl={ogImageUrl}>
+  <section class="article-detail-section">
+    <div class="container main-content-area">
+      <div class="article-main-content">
+        <article class="article-content">
+          <h1 class="article-title">{baiViet.tieudebaiviet}</h1>
+          <img src={baiViet.img_url} alt={baiViet.img_alt || baiViet.tieudebaiviet} class="article-main-image" />
+
+          {
+            baiViet.anhbaiviets && baiViet.anhbaiviets.length > 0 && (
+              <div class="article-gallery">
+                <div class="gallery-grid">
+                  {baiViet.anhbaiviets.map((image) => (
+                    <img src={image.img_url} alt={image.img_alt || "Hình ảnh bài viết"} />
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          <div class="article-body" set:html={baiViet.noidung} />
+
+          <div class="article-meta">
+            <p>Ngày đăng: {baiViet.created_at}</p>
+            {baiViet.danhmuc && <p>Danh mục: <a href={`/bai-viet/category/${baiViet.danhmuc.slug}`}>{baiViet.danhmuc.tendanhmucbaiviet}</a></p>}
+            {
+              baiViet.thes && baiViet.thes.length > 0 && (
+                <p>Tags:
+                  {baiViet.thes.map((tag, index) => (
+                    <a href={`/bai-viet/tag/${tag.slug}`}>{tag.tenthe}{index < baiViet.thes.length - 1 ? ", " : ""}</a>
+                  ))}
+                </p>
+              )
+            }
+          </div>
+        </article>
+      </div>
+      <BlogSidebar categories={categories} />
+    </div>
+  </section>
+</Layout>

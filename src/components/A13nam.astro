@@ -68,7 +68,7 @@
           <!-- Thay thế horizontal cards bằng dữ liệu từ API -->
           <div class="horizontal-cards-grid">
             {sortedCards.map((card, index) => (
-              <div class="card-horizontal" data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
+              <a href={card.baiviet.slug ? `/bai-viet/${card.baiviet.slug}` : "#"} class="card-horizontal" data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
                 <div class="card-horizontal-image">
                   <img src={card.baiviet.img_url} alt={card.baiviet.img_alt}>
                   <div class="card-horizontal-overlay">
@@ -76,9 +76,9 @@
                   </div>
                 </div>
                 <div class="card-horizontal-description">
-                  <p>{card.baiviet.meta_description}</p>
+                  {/* <p>{card.baiviet.meta_description}</p> */}
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

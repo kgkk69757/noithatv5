@@ -1,5 +1,26 @@
+/* src/css/GioiThieuChiTiet.css */
+
+:root {
+  --primary-dark: #333; /* Dark for main text/headings */
+  --secondary-dark: #555; /* Slightly lighter dark for secondary text */
+  --light-bg: #f9f9f9; /* Light background for sections */
+  --white: #ffffff;
+  --border-light: #e0e0e0;
+  --accent-color: #a0522d; /* Sienna-like color for accents */
+  --hover-color: #8b4513; /* Darker sienna for hover */
+
+  --font-heading: 'Playfair Display', serif; /* Elegant serif font */
+  --font-body: 'Roboto', sans-serif; /* Clean sans-serif font */
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--secondary-dark);
+}
+
 .about-us-detailed-section {
     padding: 4rem 0;
+    background-color: var(--light-bg);
 }
 
 .container {
@@ -14,8 +35,12 @@
 }
 
 .about-us-nav {
-    width: 250px;
+    width: 280px; /* Slightly wider sidebar */
     flex-shrink: 0;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    padding: 25px;
 }
 
 .sticky-nav {
@@ -24,11 +49,15 @@
 }
 
 .sticky-nav h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.5rem; /* Larger heading */
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .sticky-nav ul {
@@ -37,18 +66,24 @@
     margin: 0;
 }
 
+.sticky-nav li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
 .sticky-nav li a {
     display: block;
-    padding: 0.75rem 0;
+    padding: 12px 15px;
     text-decoration: none;
-    color: #555;
-    border-bottom: 1px solid #f0f0f0;
-    transition: color 0.3s ease, padding-left 0.3s ease;
+    color: var(--secondary-dark);
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+    font-size: 1.05rem;
 }
 
 .sticky-nav li a:hover {
-    color: #000;
-    padding-left: 10px;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding-left: 20px;
 }
 
 .about-us-content {
@@ -57,33 +92,44 @@
 
 .content-section {
     margin-bottom: 4rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
 }
 
 .content-section h2 {
-    font-size: 2rem;
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: 2.5rem; /* Larger heading */
+    font-weight: 700;
+    color: var(--primary-dark);
     margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 10px;
 }
 
 .content-section p {
-    font-size: 1.05rem;
+    font-size: 1.1rem; /* Slightly larger body text */
     line-height: 1.8;
     margin-bottom: 1rem;
+    color: var(--secondary-dark);
 }
 
 .content-section img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .content-section ul {
-    padding-left: 20px;
+    padding-left: 25px;
+    list-style: disc;
 }
 
 .content-section li {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 0.5rem;
 }
@@ -95,9 +141,22 @@
     }
     .about-us-nav {
         width: 100%;
+        padding: 20px;
     }
     .sticky-nav {
         position: static;
         margin-bottom: 2rem;
+    }
+    .sticky-nav h3 {
+        text-align: center;
+    }
+    .sticky-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    .sticky-nav li a {
+        padding: 10px 15px;
     }
 }

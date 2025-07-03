@@ -116,24 +116,26 @@ Object.keys(postsByCategory).forEach((categorySlug) => {
                 }
 
                 return (
-                  <div class={`product-showcase-div${position}`}>
-                    <img 
-                      src={post.img_url} 
-                      alt={post.img_alt}
-                      loading="lazy"
-                      decoding="async"
-                      width="400"
-                      height="300"
-                      fetchpriority="low"
-                      class="w-full h-auto object-cover rounded-md"
-                    />
-                    <div class="product-card-title">
-                      <p>{post.tieudebaiviet}</p>
-                    </div>
-                    <div class="product-card-hover">
-                      <p>{post.meta_description}</p>
-                    </div>
-                  </div>
+                  //  <div class={`product-showcase-div${position}`}>
+                  <a href={post.slug ? `/bai-viet/${post.slug}` : "#"} class={`product-showcase-div${position}`}>
+                      <img 
+                        src={post.img_url} 
+                        alt={post.img_alt}
+                        loading="lazy"
+                        decoding="async"
+                        width="400"
+                        height="300"
+                        fetchpriority="low"
+                        class="w-full h-auto object-cover rounded-md"
+                      />
+                      <div class="product-card-title">
+                        <p>{post.tieudebaiviet}</p>
+                      </div>
+                      <div class="product-card-hover">
+                        <p>{post.meta_description}</p>
+                      </div>
+                  {/* </div> */}
+                  </a>
                 );
               })}
             </div>

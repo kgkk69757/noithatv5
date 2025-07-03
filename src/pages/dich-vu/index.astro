@@ -3,11 +3,26 @@ import PageBanner from "../../components/shared/PageBanner.astro";
 import NddichVu from "../../components/dich-vu/nddich-vu.astro";
 import Layout from "../../layouts/Layout.astro";
 
-const title = "101+ Mẫu thiết kế nội thất đẹp cao cấp - báo giá dịch vụ thiết kế nội thất 2025";
-const subtitle = "Để sở hữu không gian sống lý tưởng, thẩm mỹ nhưng vẫn đảm bảo công năng. Hãy tham khảo ngay các mẫu thiết kế nội thất đẹp lý tưởng mà Mạnh Hệ thực hiện, cùng những thông tin chi tiết về báo giá, quy trình và lưu ý cần biết khi thiết kế để chọn đơn vị phù hợp cho nhà mình!";
+// Dữ liệu mẫu tĩnh cho trang dịch vụ
+const samplePageTitle = "Dịch Vụ Thiết Kế & Thi Công Nội Thất (Mẫu)";
+const samplePageDescription = "Khám phá các dịch vụ thiết kế và thi công nội thất chuyên nghiệp của Nội Thất V5 với dữ liệu mẫu.";
+const samplePageKeywords = "dịch vụ nội thất mẫu, thiết kế nội thất mẫu, thi công nội thất mẫu";
+
+const sampleBannerTitle = "Tiêu đề Banner Mẫu";
+const sampleBannerSubtitle = "Mô tả Banner Mẫu";
+const sampleBannerImageUrl = "https://rcong.vn/home/wp-content/uploads/2024/12/Hoang-My-rcong-1.jpg";
+
 ---
 
-<Layout>
-  <PageBanner title={title} subtitle={subtitle} />
+<Layout
+  title={samplePageTitle}
+  description={samplePageDescription}
+  keywords={samplePageKeywords}
+>
+  <PageBanner 
+    title={sampleBannerTitle}
+    subtitle={sampleBannerSubtitle}
+    imageUrl={sampleBannerImageUrl}
+  />
   <NddichVu />
 </Layout>

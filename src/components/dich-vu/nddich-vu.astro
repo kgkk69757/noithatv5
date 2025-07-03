@@ -1,51 +1,58 @@
 ---
 import "../../css/nddich-vu.css";
-import { fetchTrangDichVu } from "../../lib/api/dich-vu";
-import type { TrangDichVu } from "../../lib/types/dich-vu";
 
-// Gọi API lấy dữ liệu trang dịch vụ
-let trangDichVu: TrangDichVu | null;
-try {
-  trangDichVu = await fetchTrangDichVu();
-} catch (error) {
-  console.error("Lỗi khi lấy dữ liệu trang dịch vụ:", error);
-  trangDichVu = null;
-}
+// Dữ liệu mẫu tĩnh
+const sampleArticle = {
+  tieude: "Giới thiệu về dịch vụ của chúng tôi",
+  baiviet: {
+    created_at: "2025-01-01T00:00:00.000Z",
+    img: "https://rcong.vn/home/wp-content/uploads/2024/12/Hoang-My-rcong-1.jpg",
+    img_alt: "Hình ảnh dịch vụ mẫu",
+    noidung: `<p>Đây là nội dung mẫu cho trang dịch vụ. Chúng tôi cung cấp các giải pháp thiết kế và thi công nội thất toàn diện, từ ý tưởng ban đầu đến hoàn thiện công trình. Với đội ngũ kiến trúc sư và kỹ sư giàu kinh nghiệm, chúng tôi cam kết mang đến những không gian sống và làm việc đẳng cấp, phù hợp với mọi nhu cầu và phong cách của khách hàng.</p>
+              <p>Các dịch vụ chính bao gồm: thiết kế nội thất căn hộ, biệt thự, văn phòng, nhà hàng, quán cafe; thi công nội thất trọn gói; tư vấn và cung cấp vật liệu nội thất cao cấp.</p>
+              <h3>Quy trình làm việc</h3>
+              <ul>
+                <li>Tiếp nhận yêu cầu và tư vấn ban đầu.</li>
+                <li>Khảo sát hiện trạng và lên ý tưởng thiết kế.</li>
+                <li>Thiết kế 2D, 3D và duyệt phương án.</li>
+                <li>Báo giá và ký kết hợp đồng.</li>
+                <li>Thi công và giám sát công trình.</li>
+                <li>Nghiệm thu và bàn giao.</li>
+              </ul>
+              <p>Hãy liên hệ với chúng tôi để được tư vấn chi tiết và nhận báo giá tốt nhất cho dự án của bạn!</p>`,
+  },
+};
 ---
 
 <section class="dich-vu-section">
   <div class="container">
-    {
-      trangDichVu && (
-        <article class="dich-vu-content">
-          <header class="article-header">
-            <h1 class="article-title">{trangDichVu.tieude}</h1>
-            <div class="article-meta">
-              <time class="publish-date">
-                {new Date(trangDichVu.baiviet.created_at).toLocaleDateString(
-                  "vi-VN"
-                )}
-              </time>
-            </div>
-          </header>
+    <article class="dich-vu-content">
+      <header class="article-header">
+        <h1 class="article-title">{sampleArticle.tieude}</h1>
+        <div class="article-meta">
+          <time class="publish-date">
+            {new Date(sampleArticle.baiviet.created_at).toLocaleDateString(
+              "vi-VN"
+            )}
+          </time>
+        </div>
+      </header>
 
-          <div class="article-image">
-            <img
-              src={trangDichVu.baiviet.img}
-              alt={trangDichVu.baiviet.img_alt || trangDichVu.tieude}
-              loading="lazy"
-            />
-          </div>
+      <div class="article-image">
+        <img
+          src={sampleArticle.baiviet.img}
+          alt={sampleArticle.baiviet.img_alt || sampleArticle.tieude}
+          loading="lazy"
+        />
+      </div>
 
-          <div class="article-body">
-            <div class="content" set:html={trangDichVu.baiviet.noidung} />
-          </div>
-        </article>
-      )
-    }
+      <div class="article-body">
+        <div class="content" set:html={sampleArticle.baiviet.noidung} />
+      </div>
+    </article>
 
     {
-      !trangDichVu && (
+      !sampleArticle && (
         <div class="no-content">
           <i class="fa-solid fa-exclamation-triangle" />
           <h3>Không thể tải nội dung</h3>
